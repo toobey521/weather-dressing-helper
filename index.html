@@ -219,11 +219,11 @@ function cnToWmo(weatherStr){
 
 // ─── 中国天气网获取数据 ───
 async function fetchChinaWeather(cityCode){
-  const skUrl=`http://d1.weather.com.cn/sk_2d/${cityCode}.html`;
-  const dzUrl=`http://d1.weather.com.cn/dingzhi/${cityCode}.html`;
+  const skUrl=`https://d1.weather.com.cn/sk_2d/${cityCode}.html`;
+  const dzUrl=`https://d1.weather.com.cn/dingzhi/${cityCode}.html`;
   const [skResp,dzResp]=await Promise.all([
-    fetch(skUrl,{headers:{'Referer':'http://www.weather.com.cn/'}}),
-    fetch(dzUrl,{headers:{'Referer':'http://www.weather.com.cn/'}})
+    fetch(skUrl,{headers:{'Referer':'https://www.weather.com.cn/'}}),
+    fetch(dzUrl,{headers:{'Referer':'https://www.weather.com.cn/'}})
   ]);
   const skText=await skResp.text();
   const dzText=await dzResp.text();
