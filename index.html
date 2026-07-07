@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>每日天气 · 穿搭助手</title>
+<title>每日天气 · 穿搭助手-Toobey</title>
 <style>
-  :root{--bg:#f0f4f8;--card:#fff;--text:#1a1a2e;--text2:#555;--male:#4a90d9;--female:#e8598b;--casual:#f0b34b;--work:#6c5ce7;--shadow:0 8px 32px rgba(0,0,0,0.08);--radius:20px}
+  :root{--bg:#f0f4f8;--card:#fff;--text:#1a1a2e;--text2:#555;--male:#4a90d9;--female:#e8598b;--casual:#f0b34b;--work:#6c5ce7}
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px;display:flex;flex-direction:column;align-items:center}
   .container{max-width:480px;width:100%}
@@ -17,29 +17,41 @@
   .loading{text-align:center;padding:60px 20px;color:#999}
   .loading .spinner{width:40px;height:40px;border:3px solid #e0e0e0;border-top-color:var(--male);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .error-card{background:#fff5f5;border:1px solid #ffd7d7;border-radius:var(--radius);padding:24px;text-align:center;color:#c53030;margin-top:20px}
+  .error-card{background:#fff5f5;border:1px solid #ffd7d7;border-radius:20px;padding:24px;text-align:center;color:#c53030;margin-top:20px}
   .error-card .retry{display:inline-block;margin-top:12px;padding:8px 24px;background:#c53030;color:#fff;border:none;border-radius:10px;font-size:14px;cursor:pointer}
   .weather-card{background:linear-gradient(145deg,#fff,#f8faff);border-radius:24px;box-shadow:0 12px 40px rgba(74,144,217,0.10);padding:28px 24px 20px;margin-top:8px}
   .weather-loc-wrap{display:flex;align-items:center;gap:6px;margin-bottom:6px}
-  .weather-loc-wrap .pin{font-size:16px}
   .weather-location{font-size:22px;font-weight:700;color:var(--text);letter-spacing:.5px}
   .weather-location .loc-district{font-size:14px;font-weight:400;color:#888;margin-left:6px}
   .weather-main{display:flex;align-items:center;justify-content:space-between;margin:10px 0 6px}
-  .weather-temp-wrap{position:relative}
   .weather-temp{font-size:68px;font-weight:200;line-height:1;background:linear-gradient(135deg,#2c3e50,#4a90d9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-2px}
-  .weather-temp .deg-symbol{font-size:36px;font-weight:300;background:linear-gradient(135deg,#4a90d9,#74b9ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;vertical-align:super;margin-left:2px}
+  .weather-temp .deg{font-size:36px;font-weight:300;background:linear-gradient(135deg,#4a90d9,#74b9ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;vertical-align:super}
   .weather-temp .range{font-size:14px;font-weight:500;color:#888;display:block;margin-top:2px;letter-spacing:0}
-  .weather-temp .range .range-num{font-weight:600;color:#666}
+  .weather-temp .range .rn{font-weight:600;color:#666}
   .weather-icon-wrap{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#e8f4fd,#d4ecff);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 -4px 10px rgba(74,144,217,0.08),0 8px 24px rgba(74,144,217,0.12)}
-  .weather-icon-wrap .big-icon{font-size:52px;line-height:1}
+  .weather-icon-wrap .big-i{font-size:52px;line-height:1}
   .weather-desc-line{display:flex;align-items:center;gap:10px;margin:4px 0 14px;padding:8px 14px;background:#f0f5ff;border-radius:14px;width:fit-content}
-  .weather-desc-line .w-status{font-size:15px;font-weight:600;color:#2c3e50}
-  .weather-desc-line .w-temp-now{font-size:28px;font-weight:700;background:linear-gradient(135deg,#e74c3c,#f39c12);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
-  .weather-desc-line .w-feel{font-size:13px;color:#888;font-weight:400;margin-left:2px}
+  .weather-desc-line .w-s{font-size:15px;font-weight:600;color:#2c3e50}
+  .weather-desc-line .w-t{font-size:28px;font-weight:700;background:linear-gradient(135deg,#e74c3c,#f39c12);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+  .weather-desc-line .w-f{font-size:13px;color:#888;margin-left:2px}
   .weather-extras{display:flex;gap:0;margin-top:14px;padding:12px 0 0;border-top:1px solid #edf2f7}
-  .weather-extras .ex-item{flex:1;text-align:center;font-size:12px;color:#888}
-  .weather-extras .ex-item .ex-icon{font-size:18px;display:block;margin-bottom:3px}
-  .weather-extras .ex-item .ex-val{font-size:14px;font-weight:600;color:#444;display:block;margin-top:1px}
+  .weather-extras .ex{flex:1;text-align:center;font-size:12px;color:#888}
+  .weather-extras .ex .ex-i{font-size:18px;display:block;margin-bottom:3px}
+  .weather-extras .ex .ex-v{font-size:14px;font-weight:600;color:#444;display:block;margin-top:1px}
+  .hourly-sect{margin-top:14px}
+  .hourly-title{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px}
+  .hourly-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+  .hourly-scroll::-webkit-scrollbar{height:3px}
+  .hourly-scroll::-webkit-scrollbar-thumb{background:#ddd;border-radius:2px}
+  .h-item{flex-shrink:0;width:56px;text-align:center;padding:6px 2px;border-radius:10px;background:#f8f9fc;border:1px solid #eee;font-size:11px}
+  .h-item .h-i{font-size:18px;margin:2px 0}
+  .h-item .h-t{font-size:13px;font-weight:600}
+  .h-item .h-r{font-size:10px;color:#4a90d9}
+  .warn-bar{margin-top:8px;padding:8px 12px;border-radius:10px;font-size:13px;font-weight:500;line-height:1.5}
+  .warn-bar.red{background:#fff0f0;border:1px solid #ffb0b0;color:#c00}
+  .warn-bar.orange{background:#fff3e0;border:1px solid #f0c080;color:#c60}
+  .warn-bar.yellow{background:#fffde0;border:1px solid #f0e080;color:#880}
+  .warn-bar.blue{background:#e8f4fd;border:1px solid #b0c8f0;color:#158}
   .dressing-sect{margin-top:16px}
   .dressing-title{font-size:15px;font-weight:600;margin-bottom:10px}
   .gender-tabs{display:flex;gap:8px;margin-bottom:10px}
@@ -50,8 +62,7 @@
   .style-tab{flex:1;padding:7px;text-align:center;border-radius:10px;border:1.5px solid transparent;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;background:#f8f8f8;color:#aaa}
   .style-tab.active-casual{background:#fff8e8;border-color:var(--casual);color:#b8860b}
   .style-tab.active-work{background:#f0ecfe;border-color:var(--work);color:#5a4ab0}
-  .rec-card{display:none}
-  .rec-card.show{display:block}
+  .rec-card{display:none}.rec-card.show{display:block}
   .rec-section{margin-bottom:12px}
   .rec-section:last-child{margin-bottom:0}
   .rec-label{font-size:12px;font-weight:600;color:var(--text2);letter-spacing:.5px;margin-bottom:5px}
@@ -60,438 +71,366 @@
   .rec-tip{margin-top:10px;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.6;background:#fffbe6;border:1px solid #f0e6b8;color:#8a6d0b}
   .rec-tip.hot{background:#fff0e8;border-color:#f0c8b8;color:#8a3a1a}
   .rec-tip.cold{background:#f0f0ff;border-color:#c8c8f0;color:#3a3a6a}
-  .hourly-sect{margin-top:14px}
-  .hourly-title{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px}
-  .hourly-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
-  .hourly-scroll::-webkit-scrollbar{height:3px}
-  .hourly-scroll::-webkit-scrollbar-thumb{background:#ddd;border-radius:2px}
-  .h-item{flex-shrink:0;width:56px;text-align:center;padding:6px 2px;border-radius:10px;background:#f8f9fc;border:1px solid #eee;font-size:11px}
-  .h-item .h-icon{font-size:18px;margin:2px 0}
-  .h-item .h-temp{font-size:13px;font-weight:600}
-  .h-item .h-rain{font-size:10px;color:#4a90d9}
-  .warn-bar{margin-top:8px;padding:8px 12px;border-radius:10px;font-size:13px;font-weight:500;line-height:1.5}
-  .warn-bar.red{background:#fff0f0;border:1px solid #ffb0b0;color:#c00}
-  .warn-bar.orange{background:#fff3e0;border:1px solid #f0c080;color:#c60}
-  .warn-bar.yellow{background:#fffde0;border:1px solid #f0e080;color:#880}
-  .warn-bar.blue{background:#e8f4fd;border:1px solid #b0c8f0;color:#158}
   .footer{text-align:center;padding:20px;font-size:11px;color:#bbb}
-  @media(max-width:420px){body{padding:12px}.weather-card{padding:16px}.weather-temp{font-size:42px}.weather-icon{font-size:44px}}
+  @media(max-width:420px){body{padding:12px}.weather-card{padding:20px 16px}.weather-temp{font-size:52px}.weather-temp .deg{font-size:28px}.weather-icon-wrap{width:80px;height:80px}.weather-icon-wrap .big-i{font-size:40px}}
 </style>
 </head>
 <body>
 <div class="container">
   <div class="header"><h1>☀️ 每日穿搭-Toobey</h1><div class="sub" id="todayDate"></div><div class="time-badge" id="timeBadge">🌤 天气助手</div></div>
   <div id="app"><div class="loading" id="loadingState"><div class="spinner"></div><div>正在获取你的位置…</div></div></div>
-  <div class="footer">数据 · Open-Meteo · 每日早上查看当日天气</div>
+  <div class="footer">数据 · 和风天气 · 每日早上查看当日天气</div>
 </div>
 <script>
-const WMO={0:{icon:'☀️',label:'晴'},1:{icon:'🌤',label:'少云'},2:{icon:'⛅️',label:'多云'},3:{icon:'☁️',label:'阴'},
-  45:{icon:'🌫',label:'雾'},48:{icon:'🌫',label:'浓雾'},
-  51:{icon:'🌦',label:'毛毛雨'},53:{icon:'🌦',label:'毛毛雨'},55:{icon:'🌧',label:'大毛毛雨'},
-  56:{icon:'🌧',label:'冻毛毛雨'},57:{icon:'🌧',label:'冻雨'},
-  61:{icon:'🌦',label:'小雨'},63:{icon:'🌧',label:'中雨'},65:{icon:'🌧',label:'大雨'},
-  66:{icon:'🌧',label:'冻雨'},67:{icon:'🌧',label:'大冻雨'},
-  71:{icon:'🌨',label:'小雪'},73:{icon:'🌨',label:'中雪'},75:{icon:'❄️',label:'大雪'},77:{icon:'❄️',label:'雪粒'},
-  80:{icon:'🌦',label:'阵雨'},81:{icon:'🌧',label:'中阵雨'},82:{icon:'🌧',label:'大阵雨'},
-  85:{icon:'🌨',label:'阵雪'},86:{icon:'❄️',label:'大阵雪'},
-  95:{icon:'⛈',label:'雷暴'},96:{icon:'⛈',label:'雷暴+冰雹'},99:{icon:'⛈',label:'强雷暴+冰雹'}};
-const RAIN=[51,53,55,56,57,61,63,65,66,67,80,81,82,95,96,99];
-const SNOW=[71,73,75,77,85,86];
-function uniq(a){return[...new Set(a)]}
-function wmoInfo(c){return WMO[c]||{icon:'🌤',label:'未知'}}
+// ─── 天气图标映射 ───
+const WTH_ICON={
+  '晴':'☀️','少云':'🌤','多云':'⛅️','阴':'☁️','阴天':'☁️',
+  '小雨':'🌦','中雨':'🌧','大雨':'🌧','暴雨':'🌧','大暴雨':'🌧',
+  '雷阵雨':'⛈','雷暴':'⛈','冰雹':'🌨',
+  '小雪':'🌨','中雪':'🌨','大雪':'❄️','暴雪':'❄️',
+  '雾':'🌫','霾':'🌫','扬沙':'💨','浮尘':'💨','大风':'💨'
+};
+function wIcon(t){for(const[k,v]of Object.entries(WTH_ICON)){if(t.includes(k))return v;}return'🌤'}
 
-// 风力等级换算
-function windLevel(kmh){
-  if(kmh<1) return '0级'; if(kmh<6) return '1级'; if(kmh<12) return '2级';
-  if(kmh<20) return '3级'; if(kmh<29) return '4级'; if(kmh<39) return '5级';
-  if(kmh<50) return '6级'; if(kmh<62) return '7级'; if(kmh<75) return '8级';
-  return '9级+';
+// ─── 和风天气 → WMO（穿搭引擎用） ───
+function qToWmo(t){
+  if(t.includes('雷')) return 95; if(t.includes('暴雨')) return 82;
+  if(t.includes('大雨')) return 65; if(t.includes('中雨')) return 63;
+  if(t.includes('小雨')||t.includes('阵雨')) return 61;
+  if(t.includes('暴雪')||t.includes('大雪')) return 75;
+  if(t.includes('中雪')) return 73; if(t.includes('小雪')) return 71;
+  if(t.includes('雾')||t.includes('霾')) return 45;
+  if(t.includes('阴')) return 3; return 2;
 }
-function windDir(deg){
-  if(deg==null) return '';
-  const dirs=['北','东北','东','东南','南','西南','西','西北'];
-  return dirs[Math.round(deg/45)%8]+'风';
+const RAIN_CODES=[51,53,55,56,57,58,61,63,65,66,67,68,80,81,82,95,96,99];
+const SNOW_CODES=[71,73,75,77,85,86];
+function uniq(a){return[...new Set(a)]}
+
+// ─── 和风天气获取数据 ───
+const Q_KEY='71e27111c4a24035a488264ac63bfa3d';
+const Q_HOST='mx2k5qdctg.re.qweatherapi.com';
+
+async function qFetch(path,loc){
+  const r=await fetch(`https://${Q_HOST}${path}?location=${loc}&key=${Q_KEY}`);
+  if(!r.ok) throw new Error('获取失败');
+  const buf=await r.arrayBuffer();
+  // gzip解压
+  const ds=new DecompressionStream('gzip');
+  const dw=ds.writable.getWriter();
+  dw.write(new Uint8Array(buf));
+  dw.close();
+  const reader=ds.readable.getReader();
+  let chunks=[];let done=false;
+  while(!done){const{value,dn}=await reader.read();if(dn)done=true;else chunks.push(value);}
+  const text=new TextDecoder().decode(new Uint8Array(chunks.flatMap(c=>Array.from(c))));
+  return JSON.parse(text);
+}
+
+async function fetchQWeather(lat,lon){
+  const loc=`${lon},${lat}`;
+  const[nowR,hr24R,d3R]=await Promise.all([
+    qFetch('/v7/weather/now',loc),
+    qFetch('/v7/weather/24h',loc),
+    qFetch('/v7/weather/3d',loc)
+  ]);
+  if(nowR.code!=='200'||!nowR.now) throw new Error('数据异常');
+  return{now:nowR.now,hourly:hr24R.hourly||[],daily:d3R.daily||[]};
 }
 
 // ─── 穿搭引擎 ───
-function dressMan(tMax,tMin,wCode,wind,precip){
-  const avg=(tMax+tMin)/2; const rain=precip>0||RAIN.includes(wCode);
-  const snow=SNOW.includes(wCode); const strongWind=wind>25;
-  let cT=[],cB=[],cO=[],cSh=[]; let wT=[],wB=[],wO=[],wSh=[];
-  let cWa=[],cG=[],cHa=[],cBe=[],cBa=[],cOt=[]; let wWa=[],wG=[],wH=[],wTi=[],wBe=[],wBa=[],wOt=[]; let tips=[];
-  if(avg>=35){
-    cT=['速干T恤','无袖背心','篮球背心','运动背心','网眼T恤'];cB=['运动短裤','沙滩裤','薄短裤','五分健身裤','篮球短裤'];cO=[];cSh=['凉拖','溯溪鞋','网面跑鞋','运动凉鞋','洞洞鞋'];
-    cWa=['⌚运动电子表','⌚户外登山表','⌚运动手环'];cG=['🕶偏光太阳镜','🕶运动风镜','🕶骑行镜'];cHa=['🧢速干棒球帽','👒遮阳渔夫帽','🧢空顶帽'];cBe=[];cBa=['🎒运动腰包','🎒防水斜挎'];cOt=['🧴防晒霜','💪防晒袖套','📿运动手环','🧊降温冰巾'];
-    wT=['短袖衬衫(浅色)','Polo衫(棉麻)','亚麻衬衫','丝光棉T恤'];wB=['薄西裤','商务九分裤','亚麻休闲裤'];wO=[];wSh=['透气乐福鞋','镂空皮鞋','编织商务鞋','帆船鞋'];
-    wWa=['⌚超薄商务表','⌚皮带简约腕表'];wG=['🕶方框偏光镜','🕶绅士复古镜'];wH=[];wTi=['👔浅色领带','👔编织领带(免系)','👔亚麻领带'];wBe=['🔗编织皮带','🔗针扣皮带'];wBa=['💼超薄公文包','🎒帆布托特包'];wOt=['🧴防晒霜'];
-    tips.push('🥵酷热！首选棉麻/速干，亚麻衬衫透气不贴身');}
-  else if(avg>=30){
-    cT=['短袖T恤','背心','速干Polo','无袖亨利衫','运动压缩衣'];cB=['运动短裤','薄九分裤','短裤','工装短裤','棉麻短裤'];cO=[];cSh=['运动凉鞋','透气跑鞋','帆布鞋','网面训练鞋','一脚蹬'];
-    cWa=['⌚运动手表','⌚智能手环','⌚G-Shock'];cG=['🕶飞行员太阳镜','🕶偏光镜','🕶运动墨镜'];cHa=['🧢棒球帽','👒防晒渔夫帽'];cBe=['🔗编织腰带'];cBa=['🎒斜挎小包','🎒腰包'];cOt=['🧴防晒喷雾','📿运动手环','💪护腕'];
-    wT=['短袖衬衫','Polo衫(珠地)','棉麻衬衫','丝光棉Polo'];wB=['薄西裤','九分卡其裤','棉麻西裤','透气休闲裤'];wO=['薄西装(会议可选)'];wSh=['乐福鞋','德式商务凉鞋','镂空德比鞋','帆船鞋'];
-    wWa=['⌚钢带商务表','⌚尼龙带休闲表'];wG=['🕶经典飞行员镜','🕶半框商务镜'];wH=[];wTi=['👔丝质领带','👔印花领带','👔波点领带'];wBe=['🔗针扣皮带(窄版)','🔗尼龙织带'];wBa=['💼手拿信封包','🎒帆布公文包'];wOt=['🧴防晒霜','🧣口袋方巾'];
-    tips.push('🔥炎热，短袖衬衫+轻商务，棉麻材质最透气');}
-  else if(avg>=25){
-    cT=['短袖T恤','亨利衫','薄衬衫','Polo衫','古巴领衬衫','背心+开衫'];cB=['休闲短裤','薄长裤','直筒牛仔裤','卡其短裤','宽松九分裤'];cO=['薄防晒外套(可选)','轻薄衬衫外穿'];cSh=['复古运动鞋','帆布鞋','德训鞋','板鞋','乐福鞋'];
-    cWa=['⌚潜水表','⌚尼龙带运动表','⌚卡西欧复古'];cG=['🕶复古圆框墨镜','🕶蛤蟆镜','🕶Wayfarer'];cHa=['🧢弯檐棒球帽','🧢露营帽','🧢卡车司机帽'];cBe=['🔗帆布腰带','🔗编织腰带'];cBa=['🎒邮差包','🎒帆布双肩包','👜帆布托特'];cOt=['📿皮质手链','📿串珠手链'];
-    wT=['长袖衬衫(卷袖)','Polo衫','牛津纺衬衫','亚麻混纺衬衫','亨利衫'];wB=['斜纹西裤','卡其裤','Chino裤','九分西裤'];wO=['薄西装外套','猎装夹克'];wSh=['乐福鞋','德比鞋','帆船鞋','孟克鞋'];
-    wWa=['⌚大三针正装表','⌚潜水钢表','⌚计时码表'];wG=['🕶金属框复古镜','🕶半框商务镜'];wH=[];wTi=['👔条纹领带','👔波点领带','👔纯色领带'];wBe=['🔗皮质针扣腰带'];wBa=['💼手提公文包','🎒帆布托特'];wOt=['📿简约手链','🧣口袋方巾'];}
-  else if(avg>=20){
-    cT=['T恤','Polo衫','薄长袖','亨利衫','条纹衫','牛仔衬衫','卫衣(薄)'];cB=['休闲长裤','修身牛仔裤','工装短裤','直筒牛仔裤','卡其裤'];cO=['薄夹克','牛仔衬衫(外穿)','轻薄工装夹克','开衫'];cSh=['板鞋','复古跑鞋','帆布鞋','沙漠靴','帆船鞋','德训鞋'];
-    cWa=['⌚潜水表','⌚卡西欧复古','⌚精工5号','⌚智能手表'];cG=[];cHa=['🧢棒球帽','🧢卡车司机帽','🧢平檐帽'];cBe=['🔗尼龙织带腰带','🔗帆布腰带'];cBa=['🎒邮差包','🎒帆布斜挎','🎒帆布双肩'];cOt=['📿串珠手链','📿皮质手环','📿编织手绳'];
-    wT=['衬衫','薄针织衫','牛津纺衬衫','细条纹衬衫','亨利衫+西装'];wB=['西裤','休闲西裤','卡其裤','羊毛混纺裤'];wO=['薄西装外套','猎装夹克','风衣(薄)'];wSh=['德比鞋','孟克鞋','乐福鞋','切尔西靴'];
-    wWa=['⌚正装皮带表','⌚计时码表','⌚超薄石英'];wG=[];wH=[];wTi=['👔纯色领带','👔针织领带','👔条纹领带'];wBe=['🔗皮质针扣腰带','🔗自动扣皮带'];wBa=['💼公文包','🎒皮革双肩'];wOt=['📿简约手链','🧣口袋方巾'];}
-  else if(avg>=15){
-    cT=['长袖T恤','卫衣','衬衫(内搭)','牛仔衬衫','亨利衫','连帽卫衣','条纹长袖'];cB=['直筒牛仔裤','工装裤','束脚裤','灯芯绒裤','斜纹裤'];cO=['休闲夹克','牛仔外套','飞行夹克','MA-1夹克','教练夹克','针织开衫'];cSh=['运动鞋','帆布鞋','沙漠靴','工装靴','马丁靴','板鞋'];
-    cWa=['⌚卡西欧G-Shock','⌚精工潜水','⌚军表风格'];cG=[];cHa=['🧢弯檐棒球帽','🧢毛线帽(薄)','🧢冷帽'];cBe=['🔗帆布腰带','🔗做旧皮带'];cBa=['🎒帆布双肩包','🎒斜挎邮差'];cOt=['📿编织手绳','📿皮质手环'];
-    wT=['衬衫','针织衫','牛津纺','细格纹衬衫','羊毛衫','V领针织'];wB=['西裤','卡其裤','羊毛混纺裤','灯芯绒西裤'];wO=['风衣','休闲西装','切斯特大衣','马甲(三件套)'];wSh=['牛津鞋','切尔西靴','德比鞋','布洛克鞋','乐福鞋'];
-    wWa=['⌚正装皮带表','⌚飞行员','⌚计时腕表'];wG=[];wH=[];wTi=['👔羊毛领带','👔编织领带','👔粗纺领带'];wBe=['🔗皮质针扣腰带','🔗双扣腰带'];wBa=['💼手提公文包','🎒皮革双肩包'];wOt=['🧣口袋方巾','📿袖扣'];}
-  else if(avg>=10){
-    cT=['卫衣','针织衫','连帽衫','亨利衫+外套','半高领针织','羊羔绒卫衣'];cB=['加厚牛仔裤','束脚卫裤','工装裤','灯芯绒裤','毛呢裤'];cO=['夹克','风衣','棒球服','牛仔外套','派克大衣','飞行员夹克'];cSh=['高帮帆布鞋','马丁靴','运动鞋','切尔西靴','工装靴','板鞋'];
-    cWa=['⌚G-Shock','⌚运动电子表','⌚军表'];cG=[];cHa=['🧢棒球帽','🧢冷帽','🧢针织帽'];cBe=[];cBa=['🎒帆布双肩包','🎒斜挎包'];cOt=['🧣薄围巾','📿手链'];
-    wT=['高领打底+衬衫','毛衣','羊毛衫叠穿','半高领针织','V领+衬衫','高领羊绒'];wB=['加厚西裤','灯芯绒裤','休闲羊毛裤','羊毛混纺西裤'];wO=['毛呢大衣','风衣','切斯特大衣','牛角扣大衣','双排扣大衣'];wSh=['切尔西靴','德比鞋','布洛克鞋','孟克鞋','马丁靴'];
-    wWa=['⌚正装皮带表','⌚钢带运动表','⌚飞行表'];wG=[];wH=[];wTi=['👔羊毛领带','👔粗纺领带','👔针织领带'];wBe=['🔗皮质针扣腰带'];wBa=['💼手提公文包','🎒皮革双肩包'];wOt=['🧣羊毛围巾','🧣口袋方巾'];
-    tips.push('🧥微凉，叠穿最佳：衬衫+毛衣+大衣，围巾增色保暖');}
-  else if(avg>=5){
-    cT=['厚卫衣','毛衣','摇粒绒','连帽卫衣','高领针织','羊羔绒外套','抓绒衣'];cB=['加绒长裤','工装裤','厚牛仔裤','灯芯绒裤','加绒卫裤'];cO=['棉服','羽绒马甲','派克大衣','羊毛大衣','羊羔绒外套'];cSh=['高帮鞋','切尔西靴','工装靴','马丁靴','皮靴','雪地靴'];
-    cWa=['⌚运动电子表'];cG=[];cHa=['🧢毛线冷帽','🧢绒线帽','🧢针织帽'];cBe=[];cBa=['🎒双肩包'];cOt=['🧣针织围巾','🧤触屏手套','📿手链'];
-    wT=['高领毛衣','衬衫+羊绒衫','半高领针织','毛衣+衬衫叠穿','高领羊绒'];wB=['加绒西裤','厚羊毛裤','灯芯绒','加绒商务裤'];wO=['羊毛大衣','羽绒服','泰迪大衣','派克大衣','毛呢大衣'];wSh=['切尔西靴','厚底德比鞋','工装靴','皮靴'];
-    wWa=['⌚正装皮带表'];wG=[];wH=[];wTi=[];wBe=['🔗皮质腰带'];wBa=['💼皮革公文包'];wOt=['🧣羊绒围巾','🧤皮质手套','📿袖扣'];
-    tips.push('🥶较冷，大衣+羊绒围巾+皮手套，休闲厚卫衣/摇粒绒+棉服');}
-  else if(avg>=0){
-    cT=['加绒卫衣','高领针织','摇粒绒','厚毛衣','抓绒衣','羽绒内胆'];cB=['棉裤','加绒牛仔裤','雪地裤','加绒冲锋裤','加绒卫裤'];cO=['羽绒服','厚棉服','派克大衣','长款羽绒','滑雪服'];cSh=['雪地靴','加绒马丁靴','工装靴','羊毛靴','棉靴'];
-    cWa=[];cG=[];cHa=['🧢加绒毛线帽','🧢雷锋帽','🧢滑雪面罩'];cBe=[];cBa=['🎒双肩包','🎒防水包'];cOt=['🧣厚围巾','🧤加绒手套','👂耳罩','暖宝宝'];
-    wT=['保暖内衣+高领毛衣','羊绒衫','半高领打底','厚羊毛衫+衬衫'];wB=['加绒商务裤','厚羊毛西裤','加绒西裤'];wO=['长款羽绒服','厚羊毛大衣','派克大衣','貂绒大衣'];wSh=['加绒皮鞋','皮靴','雪地靴','羊毛靴'];
-    wWa=[];wG=[];wH=[];wTi=[];wBe=['🔗皮质腰带'];wBa=['💼大容量公文包'];wOt=['🧣厚羊毛围巾','🧤加绒皮手套','👂耳罩'];
-    tips.push('🥶寒冷，羽绒服+围巾+手套+耳罩全套');}
+function dressMan(tM,tN,wc,wind,precip){
+  const a=(tM+tN)/2;const r=precip>0||RAIN_CODES.includes(wc);const s=SNOW_CODES.includes(wc);const sw=wind>25;
+  let cT=[],cB=[],cO=[],cSh=[];let wT=[],wB=[],wO=[],wSh=[];
+  let cWa=[],cG=[],cHa=[],cBe=[],cBa=[],cOt=[];let wWa=[],wG=[],wH=[],wTi=[],wBe=[],wBa=[],wOt=[];let tips=[];
+  if(a>=35){
+    cT=['速干T恤','无袖背心','篮球背心'];cB=['运动短裤','沙滩裤','短裤'];cO=[];cSh=['凉拖','溯溪鞋','网面跑鞋','洞洞鞋'];
+    cWa=['⌚运动电子表'];cG=['🕶偏光镜'];cHa=['🧢速干棒球帽'];cBe=[];cBa=['🎒运动腰包'];cOt=['🧴防晒霜','💪防晒袖套'];
+    wT=['短袖衬衫(浅色)','Polo棉麻'];wB=['薄西裤','九分裤'];wO=[];wSh=['透气乐福鞋','镂空皮鞋'];
+    wWa=['⌚超薄商务表'];wG=['🕶方框偏光镜'];wH=[];wTi=['👔浅色领带'];wBe=['🔗编织皮带'];wBa=['💼超薄公文包'];wOt=['🧴防晒霜'];
+    tips.push('🥵酷热！首选棉麻/速干');}
+  else if(a>=30){
+    cT=['短袖T恤','背心','速干Polo'];cB=['运动短裤','九分裤','短裤'];cO=[];cSh=['运动凉鞋','跑鞋','帆布鞋'];
+    cWa=['⌚运动手表'];cG=['🕶飞行员镜'];cHa=['🧢棒球帽'];cBe=['🔗编织腰带'];cBa=['🎒斜挎包'];cOt=['🧴防晒喷雾'];
+    wT=['短袖衬衫','Polo珠地','棉麻衬衫'];wB=['薄西裤','九分卡其'];wO=['薄西装(可选)'];wSh=['乐福鞋','商务凉鞋'];
+    wWa=['⌚钢带商务表'];wG=['🕶飞行员镜'];wH=[];wTi=['👔丝质领带'];wBe=['🔗针扣皮带'];wBa=['💼手拿包'];wOt=['🧴防晒'];
+    tips.push('🔥炎热，短袖衬衫+轻商务');}
+  else if(a>=25){
+    cT=['短袖T恤','亨利衫','薄衬衫','Polo'];cB=['休闲短裤','薄长裤','牛仔裤'];cO=['薄防晒外套(可选)'];cSh=['复古运动鞋','帆布鞋','德训鞋'];
+    cWa=['⌚潜水表'];cG=['🕶复古圆框'];cHa=['🧢弯檐棒球帽'];cBe=['🔗帆布腰带'];cBa=['🎒邮差包'];cOt=['📿皮质手链'];
+    wT=['长袖衬衫(卷袖)','Polo','牛津纺'];wB=['斜纹西裤','卡其裤','Chino'];wO=['薄西装','猎装夹克'];wSh=['乐福鞋','德比鞋'];
+    wWa=['⌚大三针正装表'];wG=['🕶金属框'];wH=[];wTi=['👔条纹领带'];wBe=['🔗皮质针扣腰带'];wBa=['💼公文包'];wOt=['📿手链','🧣口袋方巾'];}
+  else if(a>=20){
+    cT=['T恤','Polo','薄长袖','亨利衫'];cB=['休闲长裤','牛仔裤','工装短裤'];cO=['薄夹克','牛仔衬衫外穿'];cSh=['板鞋','复古跑鞋','帆布鞋'];
+    cWa=['⌚潜水表'];cG=[];cHa=['🧢棒球帽'];cBe=['🔗帆布腰带'];cBa=['🎒邮差包'];cOt=['📿串珠手链'];
+    wT=['衬衫','薄针织','牛津纺'];wB=['西裤','休闲西裤','卡其裤'];wO=['薄西装','猎装夹克'];wSh=['德比鞋','孟克鞋'];
+    wWa=['⌚正装皮带表'];wG=[];wH=[];wTi=['👔纯色领带'];wBe=['🔗皮质针扣腰带'];wBa=['💼公文包'];wOt=['📿手链'];}
+  else if(a>=15){
+    cT=['长袖T恤','卫衣','衬衫(内搭)','牛仔衬衫'];cB=['直筒牛仔裤','工装裤','束脚裤'];cO=['休闲夹克','牛仔外套','飞行夹克'];cSh=['运动鞋','帆布鞋','沙漠靴'];
+    cWa=['⌚G-Shock'];cG=[];cHa=['🧢弯檐棒球帽'];cBe=['🔗帆布腰带'];cBa=['🎒双肩包'];cOt=['📿编织手绳'];
+    wT=['衬衫','针织衫','牛津纺'];wB=['西裤','卡其裤','羊毛混纺'];wO=['风衣','休闲西装'];wSh=['牛津鞋','切尔西靴','德比鞋'];
+    wWa=['⌚正装皮带表'];wG=[];wH=[];wTi=['👔羊毛领带'];wBe=['🔗针扣腰带'];wBa=['💼公文包'];wOt=['🧣口袋方巾'];}
+  else if(a>=10){
+    cT=['卫衣','针织衫','连帽衫','亨利衫+外套'];cB=['加厚牛仔裤','束脚卫裤','工装裤'];cO=['夹克','风衣','棒球服','牛仔外套'];cSh=['高帮帆布鞋','马丁靴','运动鞋'];
+    cWa=['⌚G-Shock'];cG=[];cHa=['🧢棒球帽'];cBe=[];cBa=['🎒双肩包'];cOt=['🧣薄围巾'];
+    wT=['高领打底+衬衫','毛衣','羊毛衫叠穿'];wB=['加厚西裤','灯芯绒裤','羊毛裤'];wO=['毛呢大衣','风衣','切斯特大衣'];wSh=['切尔西靴','德比鞋','布洛克'];
+    wWa=['⌚正装皮带表'];wG=[];wH=[];wTi=['👔羊毛领带'];wBe=['🔗针扣腰带'];wBa=['💼公文包'];wOt=['🧣羊毛围巾'];
+    tips.push('🧥微凉，叠穿最佳：衬衫+毛衣+大衣');}
+  else if(a>=5){
+    cT=['厚卫衣','毛衣','摇粒绒','连帽卫衣','高领针织'];cB=['加绒长裤','工装裤','厚牛仔裤'];cO=['棉服','羽绒马甲','派克大衣','羊毛大衣'];cSh=['高帮鞋','切尔西靴','工装靴','马丁靴'];
+    cWa=['⌚运动电子表'];cG=[];cHa=['🧢毛线冷帽'];cBe=[];cBa=['🎒双肩包'];cOt=['🧣针织围巾','🧤触屏手套'];
+    wT=['高领毛衣','衬衫+羊绒衫'];wB=['加绒西裤','厚羊毛裤'];wO=['羊毛大衣','羽绒服','泰迪大衣'];wSh=['切尔西靴','厚底德比鞋'];
+    wWa=['⌚正装皮带表'];wG=[];wH=[];wTi=[];wBe=['🔗皮质腰带'];wBa=['💼皮革公文包'];wOt=['🧣羊绒围巾','🧤皮手套'];
+    tips.push('🥶较冷，大衣+羊绒围巾+皮手套');}
+  else if(a>=0){
+    cT=['加绒卫衣','高领针织','摇粒绒','厚毛衣'];cB=['棉裤','加绒牛仔裤','雪地裤'];cO=['羽绒服','厚棉服','派克大衣'];cSh=['雪地靴','加绒马丁靴','工装靴'];
+    cWa=[];cG=[];cHa=['🧢加绒毛线帽'];cBe=[];cBa=['🎒双肩包'];cOt=['🧣厚围巾','🧤加绒手套','👂耳罩'];
+    wT=['保暖内衣+高领毛衣','羊绒衫'];wB=['加绒商务裤','厚羊毛西裤'];wO=['长款羽绒服','厚羊毛大衣','派克大衣'];wSh=['加绒皮鞋','皮靴','雪地靴'];
+    wWa=[];wG=[];wH=[];wTi=[];wBe=['🔗皮质腰带'];wBa=['💼公文包'];wOt=['🧣厚羊毛围巾','🧤加绒皮手套'];
+    tips.push('🥶寒冷，羽绒服+围巾+手套');}
   else{
-    cT=['保暖内衣+厚毛衣','抓绒衣+防风层','羽绒内胆+卫衣','发热内衣+厚卫衣'];cB=['棉裤','加绒冲锋裤','双层雪裤','羽绒裤'];cO=['长款羽绒服','派克大衣','防风冲锋衣','滑雪服'];cSh=['加厚雪地靴','防滑靴','羊毛靴','棉靴','冰爪鞋'];
-    cWa=[];cG=[];cHa=['🧢加绒雷锋帽','🧢滑雪面罩','🧢护耳帽'];cBe=[];cBa=['🎒防水双肩包'];cOt=['🧣加厚围巾','🧤滑雪手套','👂耳罩','暖宝宝','发热贴'];
-    wT=['保暖内衣+厚羊绒','高领毛衣叠穿','功能性内搭+衬衫'];wB=['棉裤','加绒商务裤','厚羊毛裤'];wO=['长款厚羽绒服','派克大衣','防风大衣'];wSh=['防滑加绒靴','羊毛雪地靴','加厚皮靴'];
-    wWa=[];wG=[];wH=['🧢毛线帽'];wTi=[];wBe=[];wBa=['💼大容量托特包'];wOt=['🧣厚围巾','🧤防水滑雪手套','👂耳罩','暖宝宝'];
-    tips.push('❄️严寒！全副武装，尽量减少户外时间');}
-  if(rain){
+    cT=['保暖内衣+厚毛衣','抓绒衣+防风层','羽绒内胆'];cB=['棉裤','加绒冲锋裤','双层雪裤'];cO=['长款羽绒服','派克大衣','防风冲锋衣'];cSh=['加厚雪地靴','防滑靴','羊毛靴'];
+    cWa=[];cG=[];cHa=['🧢加绒雷锋帽'];cBe=[];cBa=['🎒防水双肩包'];cOt=['🧣加厚围巾','🧤滑雪手套','暖宝宝'];
+    wT=['保暖内衣+厚羊绒','高领毛衣叠穿'];wB=['棉裤','加绒商务裤'];wO=['长款厚羽绒服','派克大衣'];wSh=['防滑加绒靴','羊毛雪地靴'];
+    wWa=[];wG=[];wH=['🧢毛线帽'];wTi=[];wBe=[];wBa=['💼大容量托特'];wOt=['🧣厚围巾','🧤防水手套','暖宝宝'];
+    tips.push('❄️严寒！全副武装');}
+  if(r){
     cO=cO.length?['🧥防水冲锋衣',...cO]:['🧥防水冲锋衣'];wO=wO.length?['🧥防水大衣',...wO]:['🧥防水大衣'];
-    cSh=['🥾防水登山鞋','防滑鞋','溯溪鞋'];wSh=['🥾防水商务鞋','防滑皮鞋'];
-    cWa=cWa.filter(a=>!a.includes('皮质'));wWa=wWa.filter(a=>!a.includes('皮质'));
-    cOt=[...cOt.filter(a=>!a.includes('防晒')&&!a.includes('降温')&&!a.includes('冰巾')),'🌂折叠雨伞'];
-    wOt=[...wOt,'🌂商务长柄伞'];tips.push('🌧今天有雨，带伞+防水鞋，皮质表带换钢带/尼龙');}
-  if(snow){
-    cO.unshift('🧥防水羽绒服');wO.unshift('🧥防水羽绒服');
-    cSh=['🥾防水加绒靴','🥾防滑雪地靴'];wSh=['🥾防水商务靴','🥾防滑皮靴'];
-    cOt.push('🌂雨伞');wOt.push('🌂雨伞');tips.push('❄️雪天防滑，穿防水加绒靴');}
-  if(strongWind){
+    cSh=['🥾防水登山鞋','防滑鞋'];wSh=['🥾防水商务鞋','防滑皮鞋'];
+    cWa=cWa.filter(x=>!x.includes('皮质'));wWa=wWa.filter(x=>!x.includes('皮质'));
+    cOt=[...cOt.filter(x=>!x.includes('防晒')&&!x.includes('冰巾')),'🌂折叠伞'];
+    wOt=[...wOt,'🌂长柄伞'];tips.push('🌧今天有雨，带伞+防水鞋');}
+  if(s){cO.unshift('🧥防水羽绒服');wO.unshift('🧥防水羽绒服');cSh=['🥾防水加绒靴'];wSh=['🥾防水商务靴'];tips.push('❄️雪天防滑');}
+  if(sw){
     if(cO.length&&!cO[0].includes('防风'))cO.unshift('🧥防风外套');else if(!cO.length)cO.push('🧥防风外套');
     if(wO.length&&!wO[0].includes('防风'))wO.unshift('🧥防风外套');else if(!wO.length)wO.push('🧥防风外套');
-    tips.push('💨风大，防风外套+围巾挡风');}
+    tips.push('💨风大，防风外套+围巾');}
   return{
     casual:{top:uniq(cT),bottom:uniq(cB),outer:uniq(cO),shoes:uniq(cSh),accessories:uniq([cWa[0],cG[0],cHa[0],cBe[0],cBa[0],cOt[0]].filter(Boolean))},
     work:{top:uniq(wT),bottom:uniq(wB),outer:uniq(wO),shoes:uniq(wSh),accessories:uniq([wWa[0],wG[0],wH[0],wTi[0],wBe[0],wBa[0],wOt[0]].filter(Boolean))},
     tips:uniq(tips)};
 }
-function dressWoman(tMax,tMin,wCode,wind,precip){
-  const avg=(tMax+tMin)/2;const rain=precip>0||RAIN.includes(wCode);
-  const snow=SNOW.includes(wCode);const strongWind=wind>25;
+function dressWoman(tM,tN,wc,wind,precip){
+  const a=(tM+tN)/2;const r=precip>0||RAIN_CODES.includes(wc);const s=SNOW_CODES.includes(wc);const sw=wind>25;
   let cT=[],cB=[],cO=[],cSh=[];let wT=[],wB=[],wO=[],wSh=[];
   let cE=[],cBr=[],cN=[],cR=[],cS=[],cHa=[],cBa=[],cOt=[];let wE=[],wBr=[],wN=[],wR=[],wS=[],wH=[],wBa=[],wOt=[];let tips=[];
-  if(avg>=35){
-    cT=['吊带背心','短袖T恤','雪纺衫','抹胸','一字肩','挂脖背心','运动背心'];cB=['牛仔短裤','短裙','阔腿裤','热裤','百褶短裙','运动短裤'];cO=[];cSh=['凉拖','一字带凉鞋','网面跑鞋','运动凉鞋','细带凉鞋'];
-    cE=['📿简约耳钉','📿贝壳耳坠','📿圈圈耳环'];cBr=['💎细链手链','📿编织手绳','💎叠戴手链'];cN=['📿锁骨链','📿珍珠短链','📿硬币项链'];cR=['💍细戒指叠戴'];cS=[];cHa=['👒大檐防晒帽','🧢棒球帽','👒法式草帽'];cBa=['👜帆布托特包','👛迷你斜挎','🎒草编包'];cOt=['🕶猫眼太阳镜','🧴防晒喷雾','☂遮阳伞','🧊降温喷雾'];
-    wT=['真丝衬衫','雪纺衬衫','无袖西装','真丝飘带衫','缎面吊带+西装'];wB=['西装短裙','九分西裤','阔腿西裤','铅笔裙'];wO=['薄西装(可选)'];wSh=['浅口细跟','一字带凉鞋','方跟单鞋','尖头平底'];
-    wE=['💎珍珠耳钉','💎金属几何耳环','💎水滴耳环'];wBr=['💎细金手链','⌚时装腕表','💎细手镯'];wN=['📿珍珠项链','📿锁骨链','📿短项链'];wR=['💍单钻戒指','💍珍珠戒指'];wS=['🧣真丝小方巾'];wH=[];wBa=['👜手提托特包','👛链条包','👜手提包'];wOt=['🕶复古太阳镜','🧴防晒霜'];
-    tips.push('🥵酷热！真丝/雪纺最凉快，浅色系+金属配饰更清爽');}
-  else if(avg>=30){
-    cT=['吊带','短袖T恤','雪纺衫','背心裙','法式短上衣','Polo裙','方领上衣'];cB=['牛仔短裤','短裙','阔腿裤','百褶短裙','A字短裙','热裤'];cO=['薄防晒开衫(可选)'];cSh=['凉鞋','帆布鞋','小白鞋','一字带凉鞋','编织凉鞋','方跟拖鞋'];
-    cE=['📿圈圈耳环','📿流苏耳坠','📿珍珠小圈'];cBr=['💎串珠手链','📿彩色编织','💎金色手链'];cN=['📿锁骨链','📿硬币项链','📿吊坠'];cR=['💍开口戒指','💍素圈叠戴'];cS=[];cHa=['🧢棒球帽','👒草帽','🧢空顶帽'];cBa=['🎒草编包','👜帆布包','👛链条小包'];cOt=['🕶飞行员墨镜','🧴防晒霜','📿脚链'];
-    wT=['雪纺衬衫','真丝衬衫','针织短袖','飘带上衣','无袖雪纺','丝光棉T'];wB=['九分西裤','A字裙','直筒裙','鱼尾裙'];wO=['薄小西装','空调衫'];wSh=['方跟单鞋','尖头平底','乐福鞋','一字带中跟'];
-    wE=['💎珍珠耳钉','💎几何耳环','💎金色大圈'];wBr=['💎细金手链','⌚细带时装表','💎珍珠手链'];wN=['📿珍珠短链','📿锁骨链'];wR=['💍素圈戒指','💍单钻戒指'];wS=['🧣真丝长丝巾','🧣小方巾'];wH=[];wBa=['👜链条包','👛手提托特','👜托特包'];wOt=['🕶方框太阳镜'];
-    tips.push('🔥炎热，雪纺/真丝衬衫+九分西裤，金色配饰提亮');}
-  else if(avg>=25){
-    cT=['T恤','雪纺衫','连衣裙','茶歇裙','法式上衣','衬衫裙','方领短上衣'];cB=['短裙','牛仔短裤','薄长裤','A字裙','阔腿短裤','百褶短裙'];cO=['薄针织开衫(早晚)','衬衫当外套'];cSh=['帆布鞋','小白鞋','单鞋','玛丽珍','芭蕾鞋','乐福鞋'];
-    cE=['📿耳钉','📿小圈耳环','📿珍珠耳钉'];cBr=['💎细手链','📿串珠','💎手链叠戴'];cN=['📿锁骨链','📿吊坠','📿短项链'];cR=['💍细戒指','💍开口戒'];cS=[];cHa=['🧢弯檐棒球帽','👒平顶草帽','🧢报童帽'];cBa=['👜帆布托特','🎒草编包','👛斜挎小方包'];cOt=['🕶复古圆框墨镜','📿脚链'];
-    wT=['衬衫','雪纺衫','真丝飘带衫','飘带衬衫','微透衬衫','西装马甲'];wB=['西裤','半身裙','烟管裤','直筒裙','百褶半裙'];wO=['薄西装外套','小香风外套','薄风衣'];wSh=['乐福鞋','芭蕾平底鞋','方跟单鞋','尖头细跟','玛丽珍'];
-    wE=['💎珍珠耳坠','💎金属耳环','💎圈圈耳环'];wBr=['💎细金手镯','⌚时装表','💎手链'];wN=['📿珍珠项链','📿锁骨链'];wR=['💍单钻戒指','💍叠戴戒指'];wS=['🧣小方巾领结','🧣丝巾绑带'];wH=[];wBa=['👜手提包','👛链条斜挎','👜剑桥包'];wOt=[];}
-  else if(avg>=20){
-    cT=['衬衫','T恤','针织上衣','法式上衣','条纹衫','海军衫','POLO衫'];cB=['牛仔裤','半身裙','休闲裤','百褶裙','阔腿裤','直筒裤'];cO=['薄外套','牛仔夹克','针织开衫','西装马甲'];cSh=['运动鞋','帆布鞋','乐福鞋','玛丽珍','帆船鞋','小白鞋'];
-    cE=['📿珍珠耳钉','📿金属耳环','📿小圈'];cBr=['💎细手链','📿皮质手环','💎编织手链'];cN=['📿锁骨链','📿短项链','📿吊坠'];cR=['💍细戒指'];cS=['🧣窄丝巾','🧣小方巾'];cHa=['🧢棒球帽','🧢报童帽','🧢贝雷帽'];cBa=['👜斜挎包','🎒帆布双肩','👛腰包'];cOt=[];
-    wT=['衬衫','针织开衫','飘带衬衫','西装马甲','法式衬衫','真丝衬衫'];wB=['西裤','A字裙','直筒裤','铅笔裙','开衩裙','阔腿西裤'];wO=['小香风外套','薄风衣','西装外套','短西装'];wSh=['乐福鞋','芭蕾鞋','粗跟鞋','尖头细跟','玛丽珍'];
-    wE=['💎珍珠耳坠','💎金属几何','💎金色圆圈'];wBr=['💎细手链','⌚细带表','💎细金手镯'];wN=['📿珍珠项链','📿锁骨链','📿短项链'];wR=['💍单钻戒指','💍素圈戒指'];wS=['🧣丝巾领结','🧣长丝巾','🧣小方巾'];wH=[];wBa=['👜托特包','👛链条包','👜公文包'];wOt=[];}
-  else if(avg>=15){
-    cT=['针织衫','卫衣','衬衫','法式条纹衫','连帽卫衣','POLO衫','牛仔衬衫'];cB=['牛仔裤','阔腿裤','长裙','百褶裙','灯芯绒裤','直筒裤'];cO=['风衣','牛仔外套','棒球服','针织开衫','西装马甲','皮毛马甲'];cSh=['运动鞋','短靴','帆布鞋','马丁靴','乐福鞋','切尔西靴'];
-    cE=['📿圈圈耳环','📿金属耳坠','📿毛球耳环'];cBr=['💎手链叠戴','📿手表+手链','💎叠戴手镯'];cN=['📿锁骨链','📿长吊坠','📿毛衣链'];cR=['💍戒指叠戴','💍宽版戒指'];cS=['🧣小方巾','🧣窄丝巾','🧣丝巾choker'];cHa=['🧢报童帽','🧢贝雷帽','🧢画家帽'];cBa=['👜斜挎包','🎒帆布双肩','👜水桶包'];cOt=['📿脚链'];
-    wT=['衬衫+针织马甲','雪纺衫+开衫','修身针织','飘带衬衫','真丝衬衫+外套'];wB=['烟管裤','中长半身裙','直筒西裤','百褶中裙'];wO=['风衣','西装外套','毛呢小香风','系带大衣'];wSh=['短靴','乐福鞋','方跟靴','切尔西','粗跟短靴','马丁靴'];
-    wE=['💎珍珠耳钉','💎金属水滴','💎流苏耳环'];wBr=['💎细金手链','⌚皮带时装表'];wN=['📿短项链','📿锁骨链','📿珍珠项链'];wR=['💍珍珠戒指','💍素圈','💍单钻'];wS=['🧣真丝长巾','🧣羊毛围巾(薄)','🧣丝巾领结'];wH=[];wBa=['👜手提包','👛链条包','👜托特包'];wOt=['📿袖口装饰'];}
-  else if(avg>=10){
-    cT=['厚针织衫','卫衣','连帽衫','毛衣','羊羔绒卫衣','开衫毛衣','牛仔衬衫'];cB=['加厚牛仔裤','针织长裙','灯芯绒裤','毛呢短裙+打底','百褶中裙'];cO=['毛呢外套','风衣','羊羔绒','派克大衣','皮毛一体','牛角扣大衣'];cSh=['短靴','厚底运动鞋','马丁靴','切尔西靴','乐福鞋','雪地靴'];
-    cE=['📿圈圈耳环','📿金属耳坠','📿珍珠圈'];cBr=['💎手表','📿手链叠戴','💎皮质手环'];cN=['📿毛衣链','📿长吊坠','📿锁骨链'];cR=['💍宽版戒指','💍叠戴'];cS=['🧣厚围巾','🧣羊毛围巾','🧣大披肩'];cHa=['🧢贝雷帽','🧢毛线帽','🧢画家帽'];cBa=['👜斜挎包','🎒双肩包','👜水桶包'];cOt=['📿脚链','🧤薄手套'];
-    wT=['高领打底+衬衫','针织连衣裙','衬衫+毛衣','高领羊绒+吊带裙'];wB=['加厚西裤','直筒裙','毛呢半身裙','针织长裙'];wO=['毛呢大衣','风衣','西装外套','双排扣大衣','斗篷大衣'];wSh=['切尔西靴','粗跟短靴','乐福鞋','布洛克靴','马丁靴'];
-    wE=['💎珍珠耳钉','💎金色圆圈','💎金属耳扣'];wBr=['💎细金手镯','⌚时装腕表'];wN=['📿珍珠项链','📿锁骨链','📿毛衣链'];wR=['💍单钻戒指','💍珍珠戒指'];wS=['🧣羊毛围巾','🧣真丝长巾','🧣披肩'];wH=[];wBa=['👜托特包','👛链条包','👜手提包'];wOt=['🧣披肩(可选)','🧤皮手套'];
-    tips.push('🧥微凉，叠穿+贝雷帽/围巾是秋冬时髦标配');}
-  else if(avg>=5){
-    cT=['毛衣','加绒卫衣','高领针织','厚开衫','麻花开衫','提花毛衣','针织连衣裙'];cB=['加绒裤','厚半身裙+打底裤','灯芯绒裤','毛呢短裙+厚打底','针织阔腿裤'];cO=['毛呢大衣','棉服','羽绒马甲','皮毛一体','泰迪大衣','派克大衣'];cSh=['长靴','厚底短靴','马丁靴','雪地靴','切尔西靴','中筒靴'];
-    cE=['📿毛球耳坠','📿金色小圈','📿珍珠耳环'];cBr=['💎手表','📿手链','💎细手镯'];cN=['📿毛衣链','📿短项链','📿锁骨链'];cR=['💍宽版戒指'];cS=['🧣厚羊绒围巾','🧣羊毛大披肩'];cHa=['🧢贝雷帽','🧢毛线帽','🧢画家帽','🧢护耳帽'];cBa=['👜斜挎包','🎒双肩包','👜托特包'];cOt=['🧤触屏手套','📿脚链'];
-    wT=['高领毛衣','修身针织连衣裙','衬衫+羊绒衫','半高领+半身裙'];wB=['加绒直筒裤','厚半身裙','毛呢西裤','针织阔腿裤'];wO=['长款毛呢大衣','羽绒服','派克大衣','泰迪大衣','貂绒大衣'];wSh=['粗跟长靴','厚底短靴','切尔西','方跟靴','马丁靴'];
-    wE=['💎珍珠耳钉','💎金属耳环','💎金属圈'];wBr=['💎细金手镯','⌚皮带表'];wN=['📿珍珠短链','📿锁骨链'];wR=['💍珍珠戒指'];wS=['🧣羊绒围巾','🧣羊毛披肩','🧣仿皮草围脖'];wH=[];wBa=['👜托特包','💼手提公文包','👜大容量包'];wOt=['🧤皮手套','📿胸针'];
-    tips.push('🥶较冷，大衣+靴子+围巾+贝雷帽，轻奢感满满');}
-  else if(avg>=0){
-    cT=['保暖内衣+毛衣','羊绒衫','厚高领','厚开衫','高领羊绒+马甲','厚针织连衣裙'];cB=['加绒厚裤','厚裙+加绒打底裤','雪地半身裙','羽绒裤'];cO=['长款羽绒服','厚呢大衣','派克大衣','皮毛一体','羽绒服'];cSh=['雪地靴','加绒长靴','厚底马丁靴','羊毛靴','棉靴'];
-    cE=['📿毛线球耳环','📿珍珠小圈'];cBr=[];cN=['📿毛衣链'];cR=[];cS=['🧣厚羊绒围巾','🧣羊毛大披肩','🧣皮草围脖'];cHa=['🧢毛线帽','🧢贝雷帽','👒雷锋帽','🧢耳罩帽'];cBa=['🎒双肩包','👜大容量托特','👜斜挎包'];cOt=['🧤加绒手套','👂耳罩','暖宝宝'];
-    wT=['保暖内衣+羊绒衫','高领针织连衣裙','厚毛衣+半身裙','高领+衬衫叠穿'];wB=['加绒西裤','厚裙+打底裤','羊毛西裤'];wO=['长款羽绒服','派克大衣','厚羊毛大衣','貂绒大衣'];wSh=['加绒靴','雪地靴','粗跟皮靴','羊毛靴'];
-    wE=['💎珍珠耳钉'];wBr=[];wN=[];wR=[];wS=['🧣厚羊绒围巾','🧣羊毛披肩','🧣围巾+胸针'];wH=[];wBa=['👜大容量托特','💼公文包'];wOt=['🧤加绒皮手套','👂耳罩','📿胸针'];
-    tips.push('🥶寒冷，羽绒服+围巾+靴子+耳罩全套御寒');}
+  if(a>=35){
+    cT=['吊带背心','短袖T恤','雪纺衫'];cB=['牛仔短裤','短裙','阔腿裤'];cO=[];cSh=['凉拖','一字带凉鞋','网面跑鞋'];
+    cE=['📿简约耳钉'];cBr=['💎细手链'];cN=['📿锁骨链'];cR=['💍细戒指'];cS=[];cHa=['👒大檐防晒帽'];cBa=['👜帆布托特'];cOt=['🕶猫眼镜','🧴防晒喷雾','☂遮阳伞'];
+    wT=['真丝衬衫','雪纺衬衫'];wB=['西装短裙','九分西裤'];wO=['薄西装(可选)'];wSh=['浅口细跟','一字带凉鞋'];
+    wE=['💎珍珠耳钉'];wBr=['💎细金手链'];wN=['📿珍珠项链'];wR=['💍单钻戒指'];wS=['🧣真丝小方巾'];wH=[];wBa=['👜托特包'];wOt=['🕶复古镜'];
+    tips.push('🥵酷热！真丝/雪纺最凉快');}
+  else if(a>=30){
+    cT=['吊带','短袖T恤','雪纺衫'];cB=['牛仔短裤','短裙','阔腿裤'];cO=['薄防晒开衫(可选)'];cSh=['凉鞋','帆布鞋','小白鞋'];
+    cE=['📿圈圈耳环'];cBr=['💎串珠手链'];cN=['📿锁骨链'];cR=['💍开口戒指'];cS=[];cHa=['🧢棒球帽'];cBa=['🎒草编包'];cOt=['🕶飞行员镜','🧴防晒'];
+    wT=['雪纺衬衫','真丝衬衫'];wB=['九分西裤','A字裙'];wO=['薄小西装'];wSh=['方跟单鞋','尖头平底'];
+    wE=['💎珍珠耳钉'];wBr=['💎细金手链'];wN=['📿珍珠短链'];wR=['💍素圈戒指'];wS=['🧣真丝丝巾'];wH=[];wBa=['👜链条包'];wOt=['🕶方框镜'];
+    tips.push('🔥炎热，雪纺/真丝衬衫+九分西裤');}
+  else if(a>=25){
+    cT=['T恤','雪纺衫','连衣裙','茶歇裙'];cB=['短裙','牛仔短裤','薄长裤'];cO=['薄针织开衫(早晚)'];cSh=['帆布鞋','小白鞋','单鞋','玛丽珍'];
+    cE=['📿耳钉'];cBr=['💎细手链'];cN=['📿锁骨链'];cR=['💍细戒指'];cS=[];cHa=['🧢弯檐棒球帽'];cBa=['👜帆布托特'];cOt=['🕶复古圆框'];
+    wT=['衬衫','雪纺衫','飘带衫'];wB=['西裤','半身裙','烟管裤'];wO=['薄西装','小香风'];wSh=['乐福鞋','芭蕾鞋','方跟单鞋'];
+    wE=['💎珍珠耳坠'];wBr=['💎细金手镯'];wN=['📿珍珠项链'];wR=['💍单钻戒指'];wS=['🧣小方巾领结'];wH=[];wBa=['👜手提包'];wOt=[];}
+  else if(a>=20){
+    cT=['衬衫','T恤','针织上衣','法式上衣'];cB=['牛仔裤','半身裙','休闲裤'];cO=['薄外套','牛仔夹克','开衫'];cSh=['运动鞋','帆布鞋','乐福鞋','玛丽珍'];
+    cE=['📿珍珠耳钉'];cBr=['💎细手链'];cN=['📿锁骨链'];cR=['💍细戒指'];cS=['🧣窄丝巾'];cHa=['🧢棒球帽'];cBa=['👜斜挎包'];cOt=[];
+    wT=['衬衫','针织开衫','飘带衬衫'];wB=['西裤','A字裙','直筒裤'];wO=['小香风','薄风衣'];wSh=['乐福鞋','芭蕾鞋','粗跟鞋'];
+    wE=['💎珍珠耳坠'];wBr=['💎细手链'];wN=['📿珍珠项链'];wR=['💍单钻戒指'];wS=['🧣丝巾领结'];wH=[];wBa=['👜托特包'];wOt=[];}
+  else if(a>=15){
+    cT=['针织衫','卫衣','衬衫','条纹衫'];cB=['牛仔裤','阔腿裤','长裙','百褶裙'];cO=['风衣','牛仔外套','棒球服','开衫'];cSh=['运动鞋','短靴','帆布鞋','马丁靴'];
+    cE=['📿圈圈耳环'];cBr=['💎手链叠戴'];cN=['📿锁骨链'];cR=['💍戒指叠戴'];cS=['🧣小方巾'];cHa=['🧢报童帽'];cBa=['👜斜挎包'];cOt=['📿脚链'];
+    wT=['衬衫+针织马甲','雪纺+开衫','修身针织'];wB=['烟管裤','中长半身裙','直筒西裤'];wO=['风衣','西装外套','毛呢小香风'];wSh=['短靴','乐福鞋','切尔西'];
+    wE=['💎珍珠耳钉'];wBr=['💎细金手链'];wN=['📿短项链'];wR=['💍珍珠戒指'];wS=['🧣真丝长巾'];wH=[];wBa=['👜手提包'];wOt=[];}
+  else if(a>=10){
+    cT=['厚针织','卫衣','连帽衫','毛衣'];cB=['加厚牛仔裤','针织长裙','灯芯绒'];cO=['毛呢外套','风衣','羊羔绒','派克大衣'];cSh=['短靴','厚底运动鞋','马丁靴'];
+    cE=['📿圈圈耳环'];cBr=['💎手表'];cN=['📿毛衣链'];cR=['💍宽版戒指'];cS=['🧣厚围巾'];cHa=['🧢贝雷帽'];cBa=['👜斜挎包'];cOt=['📿脚链'];
+    wT=['高领打底+衬衫','针织连衣裙'];wB=['加厚西裤','直筒裙','毛呢半身裙'];wO=['毛呢大衣','风衣','西装外套'];wSh=['切尔西靴','粗跟短靴','乐福鞋'];
+    wE=['💎珍珠耳钉'];wBr=['💎细金手镯'];wN=['📿珍珠项链'];wR=['💍单钻戒指'];wS=['🧣羊毛围巾'];wH=[];wBa=['👜托特包'];wOt=['🧣披肩(可选)'];
+    tips.push('🧥微凉，叠穿+贝雷帽');}
+  else if(a>=5){
+    cT=['毛衣','加绒卫衣','高领针织','厚开衫'];cB=['加绒裤','厚半身裙+打底裤','灯芯绒'];cO=['毛呢大衣','棉服','羽绒马甲','皮毛一体'];cSh=['长靴','厚底短靴','马丁靴','雪地靴'];
+    cE=['📿毛球耳坠'];cBr=['💎手表'];cN=['📿毛衣链'];cR=['💍宽版戒指'];cS=['🧣厚羊绒围巾'];cHa=['🧢贝雷帽'];cBa=['👜斜挎包'];cOt=['🧤触屏手套'];
+    wT=['高领毛衣','修身针织连衣裙','衬衫+羊绒衫'];wB=['加绒直筒裤','厚半身裙','毛呢西裤'];wO=['长款毛呢大衣','羽绒服','派克大衣'];wSh=['粗跟长靴','厚底短靴'];
+    wE=['💎珍珠耳钉'];wBr=['💎细金手镯'];wN=['📿珍珠短链'];wR=['💍珍珠戒指'];wS=['🧣羊绒围巾'];wH=[];wBa=['👜托特包'];wOt=['🧤皮手套'];
+    tips.push('🥶较冷，大衣+靴子+围巾+贝雷帽');}
+  else if(a>=0){
+    cT=['保暖内衣+毛衣','羊绒衫','厚高领','厚开衫'];cB=['加绒厚裤','厚裙+打底裤','雪地半身裙'];cO=['长款羽绒服','厚呢大衣','派克大衣'];cSh=['雪地靴','加绒长靴','厚底马丁靴'];
+    cE=['📿毛线球耳环'];cBr=[];cN=['📿毛衣链'];cR=[];cS=['🧣厚羊绒围巾'];cHa=['🧢毛线帽'];cBa=['🎒双肩包'];cOt=['🧤加绒手套','👂耳罩'];
+    wT=['保暖内衣+羊绒衫','高领针织连衣裙'];wB=['加绒西裤','厚裙+打底裤','羊毛西裤'];wO=['长款羽绒服','派克大衣','厚羊毛大衣'];wSh=['加绒靴','雪地靴'];
+    wE=['💎珍珠耳钉'];wBr=[];wN=[];wR=[];wS=['🧣厚羊绒围巾'];wH=[];wBa=['👜大容量托特'];wOt=['🧤加绒皮手套','👂耳罩'];
+    tips.push('🥶寒冷，羽绒服+围巾+靴子');}
   else{
-    cT=['保暖内衣+厚羊绒衫','抓绒衣+厚毛衣','厚高领打底','发热内衣+毛衣','高领羊绒叠穿'];cB=['棉裤','加绒冲锋裤','厚雪地裙+打底裤','羽绒裤'];cO=['长款厚羽绒服','派克大衣','防风冲锋衣','滑雪服'];cSh=['加厚雪地靴','防滑雪地靴','羊毛靴','棉靴','冰爪鞋'];
-    cE=[];cBr=[];cN=[];cR=[];cS=['🧣加厚羊毛围巾','🧣仿皮草围脖','🧣羊绒大披肩'];cHa=['🧢加绒雷锋帽','🧢滑雪面罩','🧢护耳帽'];cBa=['🎒防水双肩包','👜大容量托特'];cOt=['🧤滑雪手套','👂耳罩','暖宝宝','🧴防冻霜'];
-    wT=['保暖内衣+厚羊绒','高领毛衣+衬衫叠穿','厚羊绒+羽绒马甲'];wB=['棉裤','加绒商务裤','厚羊毛裤','羽绒裤'];wO=['长款厚羽绒服','派克大衣','防风大衣'];wSh=['防滑加绒靴','羊毛雪地靴','粗跟皮靴','棉靴'];
-    wE=[];wBr=[];wN=[];wR=[];wS=['🧣厚羊绒围巾'];wH=[];wBa=['👜大容量托特包'];wOt=['🧤加绒皮手套','👂耳罩','暖宝宝'];
-    tips.push('❄️严寒！全副武装，尽量减少户外时间');}
-  if(rain){
+    cT=['保暖内衣+厚羊绒','抓绒衣+厚毛衣','厚高领打底'];cB=['棉裤','加绒冲锋裤','雪地裙+打底'];cO=['长款厚羽绒服','派克大衣','防风冲锋衣'];cSh=['加厚雪地靴','防滑雪地靴'];
+    cE=[];cBr=[];cN=[];cR=[];cS=['🧣加厚羊毛围巾'];cHa=['🧢加绒雷锋帽'];cBa=['🎒防水双肩包'];cOt=['🧤滑雪手套','暖宝宝'];
+    wT=['保暖内衣+厚羊绒','高领毛衣+衬衫'];wB=['棉裤','加绒商务裤'];wO=['长款厚羽绒服','派克大衣'];wSh=['防滑加绒靴','羊毛雪地靴'];
+    wE=[];wBr=[];wN=[];wR=[];wS=['🧣厚羊绒围巾'];wH=[];wBa=['👜大容量托特'];wOt=['🧤加绒皮手套','暖宝宝'];
+    tips.push('❄️严寒！全副武装');}
+  if(r){
     cO=cO.length?['🧥防水风衣',...cO]:['🧥防水风衣'];wO=wO.length?['🧥防水风衣',...wO]:['🧥防水风衣'];
     cSh=['☂防水平底鞋','短雨靴'];wSh=['☂低跟雨靴','防水单鞋'];
-    cOt=[...cOt.filter(a=>!a.includes('伞')&&!a.includes('防晒')&&!a.includes('降温')),'🌂透明雨伞'];
-    wOt=[...wOt,'🌂长柄雨伞'];cBa=cBa.filter(b=>!b.includes('草编'));
-    tips.push('🌧今天有雨，透明雨伞拍照也好看，草编包换帆布/皮包');}
-  if(snow){
-    cO.unshift('🧥防水羽绒服');wO.unshift('🧥防水羽绒服');
-    cSh=['🥾防滑雪地靴'];wSh=['🥾防水加绒靴'];tips.push('❄️雪天防滑，防滑雪地靴+厚袜');}
-  if(strongWind){
+    cOt=[...cOt.filter(x=>!x.includes('伞')&&!x.includes('防晒')&&!x.includes('降温')),'🌂透明伞'];
+    wOt=[...wOt,'🌂长柄伞'];cBa=cBa.filter(b=>!b.includes('草编'));
+    tips.push('🌧今天有雨，透明雨伞+防水鞋');}
+  if(s){cO.unshift('🧥防水羽绒服');wO.unshift('🧥防水羽绒服');cSh=['🥾防滑雪地靴'];wSh=['🥾防水加绒靴'];tips.push('❄️雪天防滑');}
+  if(sw){
     if(cO.length&&!cO[0].includes('防风'))cO.unshift('🧥防风大衣');else if(!cO.length)cO.push('🧥防风大衣');
     if(wO.length&&!wO[0].includes('防风'))wO.unshift('🧥防风大衣');else if(!wO.length)wO.push('🧥防风大衣');
-    tips.push('💨风大，丝巾/围巾扎紧防灌风');}
+    tips.push('💨风大，丝巾/围巾扎紧');}
   return{
     casual:{top:uniq(cT),bottom:uniq(cB),outer:uniq(cO),shoes:uniq(cSh),accessories:uniq([cE[0],cBr[0],cN[0],cR[0],cS[0],cHa[0],cBa[0],cOt[0]].filter(Boolean))},
     work:{top:uniq(wT),bottom:uniq(wB),outer:uniq(wO),shoes:uniq(wSh),accessories:uniq([wE[0],wBr[0],wN[0],wR[0],wS[0],wH[0],wBa[0],wOt[0]].filter(Boolean))},
     tips:uniq(tips)};
 }
-function renderRecHTML(rec){
+function rHTML(rec){
   let h='';
   if(rec.top.length) h+=`<div class="rec-section"><div class="rec-label">👕上身</div><div class="rec-items">${rec.top.map(t=>`<span class="rec-tag">${t}</span>`).join('')}</div></div>`;
   if(rec.bottom.length) h+=`<div class="rec-section"><div class="rec-label">👖下身</div><div class="rec-items">${rec.bottom.map(t=>`<span class="rec-tag">${t}</span>`).join('')}</div></div>`;
   if(rec.outer.length) h+=`<div class="rec-section"><div class="rec-label">🧥外套</div><div class="rec-items">${rec.outer.map(t=>`<span class="rec-tag">${t}</span>`).join('')}</div></div>`;
   if(rec.shoes.length) h+=`<div class="rec-section"><div class="rec-label">👟鞋子</div><div class="rec-items">${rec.shoes.map(t=>`<span class="rec-tag">${t}</span>`).join('')}</div></div>`;
   if(rec.accessories.length) h+=`<div class="rec-section"><div class="rec-label">🎒配饰</div><div class="rec-items">${rec.accessories.map(t=>`<span class="rec-tag">${t}</span>`).join('')}</div></div>`;
-  return h||'<div style="color:#999;padding:12px;text-align:center;">暂无推荐</div>';
-}
-
-// ─── 天气获取 ───
-async function fetchWeather(lat,lon){
-  const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_sum,windspeed_10m_max,sunrise,sunset&hourly=temperature_2m,weathercode,precipitation_probability,precipitation,windspeed_10m,winddirection_10m,relative_humidity_2m&timezone=auto&forecast_days=1`;
-  const r=await fetch(url);
-  if(!r.ok) throw new Error('天气获取失败');
-  return r.json();
-}
-
-// ─── 逆地理编码 ───
-async function reverseGeo(lat,lon){
-  try{
-    const r=await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=zh`);
-    const d=await r.json();
-    if(d&&d.city){
-      const city=d.city.replace(/市$/,'');
-      let dist=(d.locality||d.localityInfo?.administrative?.slice(-2)?.[0]?.name||d.principalSubdivision||'').replace(/市$/,'');
-      if(dist===city) dist='';
-      return{city,district:dist};
-    }
-  }catch(_){}
-  try{
-    const r2=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&zoom=12&accept-language=zh`);
-    const d2=await r2.json();
-    const a=d2?.address||{};let c=a.city||a.county||a.state_district||'';let d=a.suburb||a.town||a.county||'';
-    if(d===c)d='';c=c.replace(/市$/,'');if(c)return{city:c,district:d};
-  }catch(_){}
-  return{city:`${lat.toFixed(1)},${lon.toFixed(1)}`,district:''};
+  return h||'<div style="color:#999;padding:12px;text-align:center;">暂无</div>';
 }
 
 // ─── 渲染 ───
-function renderWeather(data,locName,districtName){
+function renderQW(data,locName,districtName){
   const now=new Date();const h=now.getHours(),m=now.getMinutes();
-  const badge=document.getElementById('timeBadge');
-  if(h>=4&&h<=8){badge.textContent='☀️早安！今日天气已更新';badge.className='time-badge morning';}
-  else{badge.textContent=`🌤更新于 ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;badge.className='time-badge';}
+  const b=document.getElementById('timeBadge');
+  if(h>=4&&h<=8){b.textContent='☀️早安！今日天气已更新';b.className='time-badge morning';}
+  else{b.textContent=`🌤更新于 ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;b.className='time-badge';}
 
-  const hData=data.hourly;
-  let curIdx=hData.time.findIndex(t=>new Date(t).getHours()===h);
-  if(curIdx<0) curIdx=hData.time.findIndex(t=>new Date(t).getHours()===h+1);
-  if(curIdx<0) curIdx=0;
+  const n=data.now;
+  const curT=n.temp;
+  const wText=n.text;
+  const fLike=n.feelsLike;
+  const wDir=n.windDir||'';
+  const wScale=n.windScale||'';
+  const hum=n.humidity||'';
+  const icon=wIcon(wText);
 
-  const wc=hData.weathercode[curIdx];
-  const w=wmoInfo(wc);
-  const curTemp=Math.round(hData.temperature_2m[curIdx]);
-  const humidity=hData.relative_humidity_2m?.[curIdx]||'--';
-  const curWindKMH=Math.round(hData.windspeed_10m[curIdx]||0);
-  const curPrecip=hData.precipitation[curIdx]||0;
-  const windDirDeg=hData.winddirection_10m?.[curIdx];
-  const tMax=Math.round(data.daily.temperature_2m_max[0]);
-  const tMin=Math.round(data.daily.temperature_2m_min[0]);
-  const maxWindKMH=Math.round(data.daily.windspeed_10m_max[0]||0);
-  const dailyPrecip=data.daily.precipitation_sum[0]||0;
-  const sunrise=data.daily.sunrise?.[0]?.split('T')[1]||'';
-  const sunset=data.daily.sunset?.[0]?.split('T')[1]||'';
+  // 每日数据
+  const dd=data.daily[0]||{};
+  const tMax=dd.tempMax||'--';
+  const tMin=dd.tempMin||'--';
+  const dText=dd.textDay||wText;
 
-  // 体感温度
-  const feelsLike = curTemp;
+  // WMO（穿搭用）
+  const wmo=qToWmo(wText);
+  const wSpeed=parseInt(n.windSpeed||'0')||0;
+  const hasRain=data.hourly.some(x=>parseInt(x.pop||'0')>=50)||['雨','雷'].some(k=>wText.includes(k));
 
-  // 小时预报HTML
-  let hourHTML='';
-  for(let i=0;i<hData.time.length;i++){
-    const ht=new Date(hData.time[i]);
-    const hr=ht.getHours();
-    if(hr<0) continue;
-    if(hr>23) break;
-    if(hourHTML.split('<div class="h-item').length>24) break;
-    const hTemp=Math.round(hData.temperature_2m[i]);
-    const hWc=hData.weathercode[i];
-    const hWi=wmoInfo(hWc);
-    const hPP=hData.precipitation_probability?.[i]||0;
-    hourHTML+=`<div class="h-item">
-      <div>${String(hr).padStart(2,'0')}:00</div>
-      <div class="h-icon">${hWi.icon}</div>
-      <div class="h-temp">${hTemp}°</div>
-      ${hPP>=30?`<div class="h-rain">💧${hPP}%</div>`:''}
-    </div>`;
+  // 小时预报
+  let hHTML='';
+  const nowH=parseInt(data.hourly[0]?.fxTime?.substring(11,13)||h);
+  for(const hr of data.hourly){
+    const hh=parseInt(hr.fxTime.substring(11,13));
+    if(hh<nowH-1) continue;
+    if(hHTML.split('<div class="h-item').length>24) break;
+    hHTML+=`<div class="h-item"><div>${hr.fxTime.substring(11,16)}</div><div class="h-i">${wIcon(hr.text)}</div><div class="h-t">${hr.temp}°</div>${parseInt(hr.pop||'0')>=30?`<div class="h-r">💧${hr.pop}%</div>`:''}</div>`;
   }
 
-  // 预警生成
+  // 预警
   const warns=[];
-  // 降雨预警
-  for(let i=curIdx;i<hData.time.length&&i<curIdx+8;i++){
-    const pp=hData.precipitation_probability?.[i]||0;
-    const precip=hData.precipitation[i]||0;
-    const wcc=hData.weathercode[i];
-    if(precip>=50){warns.push({level:'red',text:`🚨暴雨红色预警：${Math.round(precip)}mm强降水`});break;}
-    if(wcc===95||wcc===96||wcc===99){warns.push({level:'orange',text:'⛈雷暴橙色预警：注意防雷避险'});break;}
-    if(precip>=25){warns.push({level:'orange',text:`🌧暴雨橙色预警：${Math.round(precip)}mm强降雨`});break;}
-    if(RAIN.includes(wcc)||pp>=70){warns.push({level:'yellow',text:`🌧降雨黄色预警：降雨概率${Math.round(pp)}%，出门带伞`});break;}
-    if(pp>=50){warns.push({level:'blue',text:`🌦降雨蓝色预警：降雨概率${Math.round(pp)}%`});break;}
+  for(const hr of data.hourly.slice(0,12)){
+    const pp=parseInt(hr.pop||'0');
+    const txt=hr.text;
+    if(txt.includes('暴雨')||txt.includes('大暴雨')){warns.push({level:'red',text:'🚨暴雨红色预警'});break;}
+    if(txt.includes('雷暴')||txt.includes('雷阵雨')){warns.push({level:'orange',text:'⛈雷暴橙色预警'});break;}
+    if(txt.includes('大雨')){warns.push({level:'orange',text:'🌧大雨橙色预警'});break;}
+    if(txt.includes('中雨')||pp>=70){warns.push({level:'yellow',text:`🌧降雨黄色预警：概率${pp}%`});break;}
+    if(pp>=50){warns.push({level:'blue',text:`🌦降雨蓝色预警：概率${pp}%`});break;}
   }
-  // 高温预警
-  if(tMax>=40) warns.push({level:'red',text:`🔥高温红色预警：最高${tMax}°C，避免户外活动`});
-  else if(tMax>=37) warns.push({level:'orange',text:`🔥高温橙色预警：最高${tMax}°C，注意防暑`});
-  else if(tMax>=35) warns.push({level:'yellow',text:`🌡高温黄色预警：最高${tMax}°C，注意防晒`});
-  // 大风预警
-  if(maxWindKMH>=75) warns.push({level:'red',text:`💨大风红色预警：最大风速${maxWindKMH}km/h`});
-  else if(maxWindKMH>=62) warns.push({level:'orange',text:`💨大风橙色预警：最大风速${maxWindKMH}km/h`});
-  else if(maxWindKMH>=50) warns.push({level:'yellow',text:`💨大风黄色预警：最大风速${maxWindKMH}km/h`});
-  else if(maxWindKMH>=39) warns.push({level:'blue',text:`💨大风蓝色预警：最大风速${maxWindKMH}km/h`});
-  // 低温/大雪预警
-  if(tMin<=-10){warns.push({level:'red',text:`❄️寒潮红色预警：最低${tMin}°C`});}
-  else if(tMin<=-5&&SNOW.includes(wc)){warns.push({level:'orange',text:'❄️暴雪橙色预警'});}
-  else if(tMin<=0&&SNOW.includes(wc)){warns.push({level:'yellow',text:'❄️降雪黄色预警：注意防滑'});}
+  if(parseInt(dd.tempMax||'0')>=40) warns.unshift({level:'red',text:'🔥高温红色预警：最高'+dd.tempMax+'°C'});
+  else if(parseInt(dd.tempMax||'0')>=37) warns.unshift({level:'orange',text:'🔥高温橙色预警：最高'+dd.tempMax+'°C'});
+  else if(parseInt(dd.tempMax||'0')>=35) warns.unshift({level:'yellow',text:'🌡高温黄色预警：最高'+dd.tempMax+'°C'});
 
   // 穿搭
-  const mRec=dressMan(tMax,tMin,wc,curWindKMH,dailyPrecip);
-  const fRec=dressWoman(tMax,tMin,wc,curWindKMH,dailyPrecip);
+  const mD=dressMan(parseInt(tMax||'30'),parseInt(tMin||'20'),wmo,wSpeed,hasRain?1:0);
+  const fD=dressWoman(parseInt(tMax||'30'),parseInt(tMin||'20'),wmo,wSpeed,hasRain?1:0);
 
   document.getElementById('app').innerHTML=`
     <div class="weather-card">
-      <div class="weather-loc-wrap">
-        <span class="pin">📍</span>
-        <div class="weather-location">${locName}<span class="loc-district">${districtName||''}</span></div>
-      </div>
+      <div class="weather-loc-wrap"><span class="pin">📍</span><div class="weather-location">${locName}<span class="loc-district">${districtName||''}</span></div></div>
       <div class="weather-main">
-        <div class="weather-temp-wrap">
-          <div class="weather-temp">${curTemp}<span class="deg-symbol">°</span><span class="range">↕ <span class="range-num">${tMin}</span>° ~ <span class="range-num">${tMax}</span>°</span></div>
-        </div>
-        <div class="weather-icon-wrap">
-          <div class="big-icon">${w.icon}</div>
-        </div>
+        <div><div class="weather-temp">${curT}<span class="deg">°</span><span class="range">↕ <span class="rn">${tMin}</span>° ~ <span class="rn">${tMax}</span>°</span></div></div>
+        <div class="weather-icon-wrap"><div class="big-i">${icon}</div></div>
       </div>
-      <div class="weather-desc-line">
-        <span class="w-status">${w.label}</span>
-        <span class="w-temp-now">${curTemp}°</span>
-        <span class="w-feel">体感 ${feelsLike}°C</span>
-      </div>
+      <div class="weather-desc-line"><span class="w-s">${wText}</span><span class="w-t">${curT}°</span><span class="w-f">体感 ${fLike}°C</span></div>
       <div class="weather-extras">
-        <div class="ex-item"><span class="ex-icon">💨</span><span>${windDir(windDirDeg)}</span><span class="ex-val">${windLevel(curWindKMH)}</span></div>
-        <div class="ex-item"><span class="ex-icon">💧</span><span>湿度</span><span class="ex-val">${humidity}%</span></div>
-        <div class="ex-item"><span class="ex-icon">🌅</span><span>日出</span><span class="ex-val">${sunrise||'--'}</span></div>
-        <div class="ex-item"><span class="ex-icon">🌇</span><span>日落</span><span class="ex-val">${sunset||'--'}</span></div>
+        <div class="ex"><span class="ex-i">💨</span><span>${wDir}</span><span class="ex-v">${wScale}级</span></div>
+        <div class="ex"><span class="ex-i">💧</span><span>湿度</span><span class="ex-v">${hum}%</span></div>
+        <div class="ex"><span class="ex-i">🌅</span><span>日出</span><span class="ex-v">${dd.sunrise||'--'}</span></div>
+        <div class="ex"><span class="ex-i">🌇</span><span>日落</span><span class="ex-v">${dd.sunset||'--'}</span></div>
       </div>
-      ${hourHTML?`
-      <div class="hourly-sect">
-        <div class="hourly-title">⏱ 小时预报</div>
-        <div class="hourly-scroll">${hourHTML}</div>
-      </div>`:''}
+      ${hHTML?`<div class="hourly-sect"><div class="hourly-title">⏱ 小时预报</div><div class="hourly-scroll">${hHTML}</div></div>`:''}
       ${warns.map(w=>`<div class="warn-bar ${w.level}">${w.text}</div>`).join('')}
     </div>
     <div class="dressing-sect">
       <div class="dressing-title">👔 今日穿搭推荐</div>
-      <div class="gender-tabs">
-        <div class="gender-tab active-male" data-gender="male">🧑 男士</div>
-        <div class="gender-tab" data-gender="female">👩 女士</div>
-      </div>
+      <div class="gender-tabs"><div class="gender-tab active-male" data-g="male">🧑 男士</div><div class="gender-tab" data-g="female">👩 女士</div></div>
       <div class="rec-card show" id="recMale">
-        <div class="style-tabs">
-          <div class="style-tab active-casual" data-style="casual" data-gender="male">🛹 时髦大咖</div>
-          <div class="style-tab" data-style="work" data-gender="male">💼 通勤牛马</div>
-        </div>
-        <div id="maleCasual">${renderRecHTML(mRec.casual)}</div>
-        <div id="maleWork" style="display:none">${renderRecHTML(mRec.work)}</div>
+        <div class="style-tabs"><div class="style-tab active-casual" data-s="casual" data-g="male">🛹 时髦大咖</div><div class="style-tab" data-s="work" data-g="male">💼 通勤牛马</div></div>
+        <div id="mC">${rHTML(mD.casual)}</div><div id="mW" style="display:none">${rHTML(mD.work)}</div>
       </div>
       <div class="rec-card" id="recFemale">
-        <div class="style-tabs">
-          <div class="style-tab active-casual" data-style="casual" data-gender="female">🛹 时髦大咖</div>
-          <div class="style-tab" data-style="work" data-gender="female">💼 通勤牛马</div>
-        </div>
-        <div id="femaleCasual">${renderRecHTML(fRec.casual)}</div>
-        <div id="femaleWork" style="display:none">${renderRecHTML(fRec.work)}</div>
+        <div class="style-tabs"><div class="style-tab active-casual" data-s="casual" data-g="female">🛹 时髦大咖</div><div class="style-tab" data-s="work" data-g="female">💼 通勤牛马</div></div>
+        <div id="fC">${rHTML(fD.casual)}</div><div id="fW" style="display:none">${rHTML(fD.work)}</div>
       </div>
-      ${mRec.tips.map(t=>`<div class="rec-tip">${t}</div>`).join('')}
+      ${mD.tips.map(t=>`<div class="rec-tip">${t}</div>`).join('')}
     </div>`;
 
   document.querySelectorAll('.gender-tab').forEach(t=>t.addEventListener('click',()=>{
-    const g=t.dataset.gender;
-    document.querySelectorAll('.gender-tab').forEach(x=>x.className='gender-tab'+(x.dataset.gender===g?' active-'+g:''));
+    const g=t.dataset.g;
+    document.querySelectorAll('.gender-tab').forEach(x=>x.className='gender-tab'+(x.dataset.g===g?' active-'+g:''));
     document.getElementById('recMale').classList.toggle('show',g==='male');
     document.getElementById('recFemale').classList.toggle('show',g==='female');
   }));
   document.querySelectorAll('.style-tab').forEach(t=>t.addEventListener('click',()=>{
-    const s=t.dataset.style,g=t.dataset.gender;
-    t.closest('.rec-card').querySelectorAll('.style-tab').forEach(x=>x.className='style-tab'+(x.dataset.style===s?' active-'+s:''));
-    const p=g==='male'?'male':'female';
-    document.getElementById(p+'Casual').style.display=s==='casual'?'':'none';
-    document.getElementById(p+'Work').style.display=s==='work'?'':'none';
+    const s=t.dataset.s,g=t.dataset.g;
+    t.closest('.rec-card').querySelectorAll('.style-tab').forEach(x=>x.className='style-tab'+(x.dataset.s===s?' active-'+s:''));
+    const p=g==='male'?'m':'f';
+    document.getElementById(p+'C').style.display=s==='casual'?'':'none';
+    document.getElementById(p+'W').style.display=s==='work'?'':'none';
   }));
+}
+
+// ─── 逆地理编码 ───
+async function revGeo(lat,lon){
+  try{
+    const r=await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=zh`);
+    const d=await r.json();
+    if(d&&d.city){
+      const c=d.city.replace(/市$/,'');
+      let dist=(d.locality||d.localityInfo?.administrative?.slice(-2)?.[0]?.name||'').replace(/市$/,'');
+      if(dist===c) dist='';
+      return{c,dist};
+    }
+  }catch(_){}
+  return{c:`${lat.toFixed(1)},${lon.toFixed(1)}`,dist:''};
 }
 
 // ─── 主流程 ───
 document.getElementById('todayDate').textContent=new Date().toLocaleDateString('zh-CN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-const CACHE_KEY='wx_city_v1';
+const CK='wx_city_v2';
 
 navigator.geolocation.getCurrentPosition(async pos=>{
   const{latitude,longitude}=pos.coords;
   document.getElementById('loadingState').innerHTML='<div class="spinner"></div><div>正在查询天气…</div>';
-  const cached=localStorage.getItem(CACHE_KEY);
-  if(cached){
-    try{
-      const c=JSON.parse(cached);
-      document.getElementById('app').innerHTML=`
-        <div class="weather-card">
-          <div class="weather-location">${c.city||'加载中…'}<span class="loc-district">${c.district||''}</span></div>
-          <div class="weather-main"><div><div class="weather-temp">--°<span class="range">--°~--°</span></div></div><div class="weather-icon">⏳</div></div>
-          <div class="weather-desc">数据加载中…</div>
-        </div>
-        <div class="loading" style="padding:30px"><div class="spinner"></div><div>获取天气数据…</div></div>`;
-    }catch(_){}
+  const c=localStorage.getItem(CK);
+  if(c){
+    try{const x=JSON.parse(c);document.getElementById('app').innerHTML=`<div class="weather-card"><div class="weather-loc-wrap"><span class="pin">📍</span><div class="weather-location">${x.c||'加载中…'}<span class="loc-district">${x.d||''}</span></div></div><div class="weather-main"><div><div class="weather-temp">--<span class="deg">°</span><span class="range">--°~--°</span></div></div><div class="weather-icon-wrap"><div class="big-i">⏳</div></div></div><div class="weather-desc-line" style="margin:0;padding:20px"><div class="spinner" style="width:24px;height:24px;border-width:2px"></div><span style="color:#999">加载天气…</span></div></div>`;}catch(_){}
   }
   const[weather,loc]=await Promise.all([
-    fetchWeather(latitude,longitude),
-    reverseGeo(latitude,longitude).then(l=>{localStorage.setItem(CACHE_KEY,JSON.stringify(l));return l;})
+    fetchQWeather(latitude,longitude),
+    revGeo(latitude,longitude).then(l=>{localStorage.setItem(CK,JSON.stringify(l));return l;})
   ]);
-  renderWeather(weather,loc.city,loc.district);
+  renderQW(weather,loc.c,loc.dist);
 },err=>{
-  const cached=localStorage.getItem(CACHE_KEY);
-  let c='',d='';
-  if(cached){try{const x=JSON.parse(cached);c=x.city;d=x.district;}catch(_){}}
+  const c=localStorage.getItem(CK);
+  let cn='',dn='';
+  if(c){try{const x=JSON.parse(c);cn=x.c;dn=x.d;}catch(_){}}
   document.getElementById('loadingState').innerHTML='<div class="spinner"></div><div>定位失败，使用上次位置…</div>';
-  const defLat=36.45,defLon=115.98;
-  fetchWeather(defLat,defLon).then(w=>renderWeather(w,c||'当前位置',d?d+'（默认）':'（默认）'))
-  .catch(()=>showError('定位失败，请允许定位或检查网络'));
+  fetchQWeather(36.45,115.98).then(w=>renderQW(w,cn||'聊城',dn?dn+'（默认）':'（默认）'))
+  .catch(()=>{document.getElementById('app').innerHTML=`<div class="error-card"><div>😅 定位失败</div><button class="retry" onclick="location.reload()">重试</button></div>`;});
 },{enableHighAccuracy:false,timeout:6000});
-
-function showError(msg){
-  document.getElementById('app').innerHTML=`
-    <div class="error-card"><div>😅 ${msg}</div><button class="retry" onclick="location.reload()">重新获取</button></div>`;}
 </script>
 </body>
 </html>
