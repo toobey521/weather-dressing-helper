@@ -334,8 +334,8 @@ function dressMan(tMax, tMin, wCode, wind, precip){
   }
 
   return {
-    casual:{top:uniq(cTop),bottom:uniq(cBot),outer:uniq(cOut),shoes:uniq(cShoe),accessories:uniq([...cWatch,...cGlass,...cHat,...cBelt,...cBag,...cOther])},
-    work:{top:uniq(wTop),bottom:uniq(wBot),outer:uniq(wOut),shoes:uniq(wShoe),accessories:uniq([...wWatch,...wGlass,...wHat,...wTie,...wBelt,...wBag,...wOther])},
+    casual:{top:uniq(cTop),bottom:uniq(cBot),outer:uniq(cOut),shoes:uniq(cShoe),accessories:uniq([cWatch[0],cGlass[0],cHat[0],cBelt[0],cBag[0],cOther[0]].filter(Boolean))},
+    work:{top:uniq(wTop),bottom:uniq(wBot),outer:uniq(wOut),shoes:uniq(wShoe),accessories:uniq([wWatch[0],wGlass[0],wHat[0],wTie[0],wBelt[0],wBag[0],wOther[0]].filter(Boolean))},
     tips:uniq(tips)
   };
 }
@@ -428,8 +428,8 @@ function dressWoman(tMax, tMin, wCode, wind, precip){
   }
 
   return {
-    casual:{top:uniq(cTop),bottom:uniq(cBot),outer:uniq(cOut),shoes:uniq(cShoe),accessories:uniq([...cEar,...cBracelet,...cNecklace,...cRing,...cScarf,...cHat,...cBag,...cOther])},
-    work:{top:uniq(wTop),bottom:uniq(wBot),outer:uniq(wOut),shoes:uniq(wShoe),accessories:uniq([...wEar,...wBracelet,...wNecklace,...wRing,...wScarf,...wHat,...wBag,...wOther])},
+    casual:{top:uniq(cTop),bottom:uniq(cBot),outer:uniq(cOut),shoes:uniq(cShoe),accessories:uniq([cEar[0],cBracelet[0],cNecklace[0],cRing[0],cScarf[0],cHat[0],cBag[0],cOther[0]].filter(Boolean))},
+    work:{top:uniq(wTop),bottom:uniq(wBot),outer:uniq(wOut),shoes:uniq(wShoe),accessories:uniq([wEar[0],wBracelet[0],wNecklace[0],wRing[0],wScarf[0],wHat[0],wBag[0],wOther[0]].filter(Boolean))},
     tips:uniq(tips)
   };
 }
