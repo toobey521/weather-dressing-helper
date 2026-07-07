@@ -113,17 +113,7 @@ const Q_HOST='mx2k5qdctg.re.qweatherapi.com';
 async function qFetch(path,loc){
   const r=await fetch(`https://${Q_HOST}${path}?location=${loc}&key=${Q_KEY}`);
   if(!r.ok) throw new Error('获取失败');
-  const buf=await r.arrayBuffer();
-  // gzip解压
-  const ds=new DecompressionStream('gzip');
-  const dw=ds.writable.getWriter();
-  dw.write(new Uint8Array(buf));
-  dw.close();
-  const reader=ds.readable.getReader();
-  let chunks=[];let done=false;
-  while(!done){const{value,dn}=await reader.read();if(dn)done=true;else chunks.push(value);}
-  const text=new TextDecoder().decode(new Uint8Array(chunks.flatMap(c=>Array.from(c))));
-  return JSON.parse(text);
+  return r.json();
 }
 
 async function fetchQWeather(lat,lon){
