@@ -448,23 +448,30 @@ function renderRecHTML(rec){
 function renderWeather(data, locName, districtName){
   const date=new Date();
   const h=date.getHours();
+  const m=date.getMinutes();
   const isMorning=h>=4&&h<=8;
   const badge=document.getElementById('timeBadge');
   if(isMorning){ badge.textContent='☀️ 早安！今日天气已更新'; badge.className='time-badge morning'; }
-  else{ badge.textContent=`🌤 更新于 ${h.toString().padStart(2,'0')}:${date.getMinutes().toString().padStart(2,'0')}`; badge.className='time-badge'; }
+  else{ badge.textContent=`🌤 更新于 ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`; badge.className='time-badge'; }
 
-  const wc=data.daily.weathercode[0];
+  // 用当前小时的天气数据（比 daily 更准确）
+  const hourly=data.hourly;
+  const nowHour=date.getHours();
+  let curIdx=hourly.time.findIndex(t=>new Date(t).getHours()===nowHour);
+  if(curIdx<0) curIdx=hourly.time.findIndex(t=>new Date(t).getHours()===nowHour+1);
+  if(curIdx<0) curIdx=0;
+
+  const wc=hourly.weathercode[curIdx];
   const w=wmoInfo(wc);
+  const curTemp=Math.round(hourly.temperature_2m[curIdx]);
+  const curWind=Math.round(hourly.windspeed_10m[curIdx]||0);
+  const curPrecip=hourly.precipitation[curIdx]||0;
   const tMax=Math.round(data.daily.temperature_2m_max[0]);
   const tMin=Math.round(data.daily.temperature_2m_min[0]);
   const wind=Math.round(data.daily.windspeed_10m_max[0]||0);
   const precip=data.daily.precipitation_sum[0]||0;
   const sunrise=data.daily.sunrise?.[0]?.split('T')[1]||'';
   const sunset=data.daily.sunset?.[0]?.split('T')[1]||'';
-
-  // hourly
-  const hourly=data.hourly;
-  const nowHour=date.getHours();
   const hourItems=[];
   for(let i=0;i<hourly.time.length;i++){
     const ht=new Date(hourly.time[i]);
@@ -505,11 +512,11 @@ function renderWeather(data, locName, districtName){
       <div class="weather-location">${locName}<span class="loc-district">${districtName||''}</span></div>
       <div class="weather-main">
         <div>
-          <div class="weather-temp">${tMax}°<span class="range">${tMin}° ~ ${tMax}°</span></div>
+          <div class="weather-temp">${curTemp}°<span class="range">↕ ${tMin}° ~ ${tMax}°</span></div>
         </div>
         <div class="weather-icon">${w.icon}</div>
       </div>
-      <div class="weather-desc">${w.label} · 体感 ${Math.round((tMax+tMin)/2)}°C</div>
+      <div class="weather-desc">${w.label} · 实时 ${curTemp}°C</div>
       <div class="weather-extras">
         <span>💨 ${wind} km/h</span>
         <span>💧 ${precip} mm</span>
