@@ -555,32 +555,33 @@ async function fetchWeather(lat, lon){
 
 // ─── 逆地理编码 ───
 async function reverseGeo(lat, lon){
+  // 方案1: Nominatim 逆地理编码
   try{
     const url=`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&zoom=12&accept-language=zh`;
     const resp=await fetch(url,{headers:{'User-Agent':'WeatherApp/1.0'}});
     const d=await resp.json();
     const addr=d?.address||{};
-    // 中国地址层级：state=省, city=市, county=区/县, town=镇, suburb=街道
-    // 部分返回 city 为空时取 county, 或从 display_name 提取
     let city=addr.city||addr.county||addr.city_district||addr.town||addr.state_district||'';
     let district=addr.suburb||addr.town||addr.village||addr.county||addr.district||addr.municipality||'';
-    // 如果 city 和 district 一样(如 county 既是区又是市名)，district 置空
     if(district===city) district='';
-    // 去掉"市"后缀冗余
     city=city.replace(/市$/,'');
-    district=district.replace(/区$/,'').replace(/县$/,'');
-    // 兜底：从 display_name 解析
     if(!city && d.display_name){
       const parts=d.display_name.split(',').map(s=>s.trim());
-      // 典型: "东昌府区, 聊城市, 山东省, 中国"
       city=parts[1]||parts[0]||'';
       district=parts[0]||'';
       city=city.replace(/市$/,'');
     }
     return {city:city||'当前位置',district};
-  }catch{
-    // 定位请求成功但地理编码失败时用坐标反查显示
-    return {city:`位置(${lat.toFixed(2)},${lon.toFixed(2)})`,district:''};
+  }catch(e){
+    // Nominatim 失败 fallback: IP 定位
+    try{
+      const ipResp=await fetch('https://ip-api.com/json/?lang=zh-CN',{headers:{'User-Agent':'WeatherApp/1.0'}});
+      const ipData=await ipResp.json();
+      if(ipData&&ipData.city){
+        return {city:ipData.city,district:ipData.regionName||''};
+      }
+    }catch(_){}
+    return {city:`${lat.toFixed(2)},${lon.toFixed(2)}`,district:''};
   }
 }
 
