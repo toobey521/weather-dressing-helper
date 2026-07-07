@@ -49,6 +49,20 @@
   .rec-tip{margin-top:10px;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.6;background:#fffbe6;border:1px solid #f0e6b8;color:#8a6d0b}
   .rec-tip.hot{background:#fff0e8;border-color:#f0c8b8;color:#8a3a1a}
   .rec-tip.cold{background:#f0f0ff;border-color:#c8c8f0;color:#3a3a6a}
+  .hourly-sect{margin-top:14px}
+  .hourly-title{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px}
+  .hourly-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+  .hourly-scroll::-webkit-scrollbar{height:3px}
+  .hourly-scroll::-webkit-scrollbar-thumb{background:#ddd;border-radius:2px}
+  .h-item{flex-shrink:0;width:56px;text-align:center;padding:6px 2px;border-radius:10px;background:#f8f9fc;border:1px solid #eee;font-size:11px}
+  .h-item .h-icon{font-size:18px;margin:2px 0}
+  .h-item .h-temp{font-size:13px;font-weight:600}
+  .h-item .h-rain{font-size:10px;color:#4a90d9}
+  .warn-bar{margin-top:8px;padding:8px 12px;border-radius:10px;font-size:13px;font-weight:500;line-height:1.5}
+  .warn-bar.red{background:#fff0f0;border:1px solid #ffb0b0;color:#c00}
+  .warn-bar.orange{background:#fff3e0;border:1px solid #f0c080;color:#c60}
+  .warn-bar.yellow{background:#fffde0;border:1px solid #f0e080;color:#880}
+  .warn-bar.blue{background:#e8f4fd;border:1px solid #b0c8f0;color:#158}
   .footer{text-align:center;padding:20px;font-size:11px;color:#bbb}
   @media(max-width:420px){body{padding:12px}.weather-card{padding:16px}.weather-temp{font-size:42px}.weather-icon{font-size:44px}}
 </style>
@@ -303,32 +317,59 @@ function renderWeather(data,locName,districtName){
   const sunrise=data.daily.sunrise?.[0]?.split('T')[1]||'';
   const sunset=data.daily.sunset?.[0]?.split('T')[1]||'';
 
-  // 体感温度（简化版）
+  // 体感温度
   const feelsLike = curTemp;
 
-  // 降雨预警
-  let rainAlert='';
-  for(let i=curIdx;i<hData.time.length&&i<curIdx+10;i++){
-    const pp=hData.precipitation_probability?.[i]||0;
-    const wcc=hData.weathercode[i];
-    if(RAIN.includes(wcc)||pp>=60){
-      const ht=new Date(hData.time[i]);
-      const hourStr=ht.getHours().toString().padStart(2,'0');
-      rainAlert=`🌧 ${hourStr}:00前后有雨（概率${Math.round(pp)}%），出门带伞`;
-      break;
-    }
+  // 小时预报HTML
+  let hourHTML='';
+  for(let i=0;i<hData.time.length;i++){
+    const ht=new Date(hData.time[i]);
+    const hr=ht.getHours();
+    if(hr<h-1) continue;
+    if(hr>22) break;
+    if(hourHTML.split('<div class="h-item').length>16) break;
+    const hTemp=Math.round(hData.temperature_2m[i]);
+    const hWc=hData.weathercode[i];
+    const hWi=wmoInfo(hWc);
+    const hPP=hData.precipitation_probability?.[i]||0;
+    hourHTML+=`<div class="h-item">
+      <div>${String(hr).padStart(2,'0')}:00</div>
+      <div class="h-icon">${hWi.icon}</div>
+      <div class="h-temp">${hTemp}°</div>
+      ${hPP>=30?`<div class="h-rain">💧${hPP}%</div>`:''}
+    </div>`;
   }
 
+  // 预警生成
+  const warns=[];
+  // 降雨预警
+  for(let i=curIdx;i<hData.time.length&&i<curIdx+8;i++){
+    const pp=hData.precipitation_probability?.[i]||0;
+    const precip=hData.precipitation[i]||0;
+    const wcc=hData.weathercode[i];
+    if(precip>=50){warns.push({level:'red',text:`🚨暴雨红色预警：${Math.round(precip)}mm强降水`});break;}
+    if(wcc===95||wcc===96||wcc===99){warns.push({level:'orange',text:'⛈雷暴橙色预警：注意防雷避险'});break;}
+    if(precip>=25){warns.push({level:'orange',text:`🌧暴雨橙色预警：${Math.round(precip)}mm强降雨`});break;}
+    if(RAIN.includes(wcc)||pp>=70){warns.push({level:'yellow',text:`🌧降雨黄色预警：降雨概率${Math.round(pp)}%，出门带伞`});break;}
+    if(pp>=50){warns.push({level:'blue',text:`🌦降雨蓝色预警：降雨概率${Math.round(pp)}%`});break;}
+  }
+  // 高温预警
+  if(tMax>=40) warns.push({level:'red',text:`🔥高温红色预警：最高${tMax}°C，避免户外活动`});
+  else if(tMax>=37) warns.push({level:'orange',text:`🔥高温橙色预警：最高${tMax}°C，注意防暑`});
+  else if(tMax>=35) warns.push({level:'yellow',text:`🌡高温黄色预警：最高${tMax}°C，注意防晒`});
+  // 大风预警
+  if(maxWindKMH>=75) warns.push({level:'red',text:`💨大风红色预警：最大风速${maxWindKMH}km/h`});
+  else if(maxWindKMH>=62) warns.push({level:'orange',text:`💨大风橙色预警：最大风速${maxWindKMH}km/h`});
+  else if(maxWindKMH>=50) warns.push({level:'yellow',text:`💨大风黄色预警：最大风速${maxWindKMH}km/h`});
+  else if(maxWindKMH>=39) warns.push({level:'blue',text:`💨大风蓝色预警：最大风速${maxWindKMH}km/h`});
+  // 低温/大雪预警
+  if(tMin<=-10){warns.push({level:'red',text:`❄️寒潮红色预警：最低${tMin}°C`});}
+  else if(tMin<=-5&&SNOW.includes(wc)){warns.push({level:'orange',text:'❄️暴雪橙色预警'});}
+  else if(tMin<=0&&SNOW.includes(wc)){warns.push({level:'yellow',text:'❄️降雪黄色预警：注意防滑'});}
+
   // 穿搭
-  const avgT=(tMax+tMin)/2;
   const mRec=dressMan(tMax,tMin,wc,curWindKMH,dailyPrecip);
   const fRec=dressWoman(tMax,tMin,wc,curWindKMH,dailyPrecip);
-
-  // 高温/低温提示
-  let tempTip='';
-  if(tMax>=35) tempTip='🥵高温预警！最高'+tMax+'°C，注意防暑';
-  else if(tMax>=30) tempTip='🔥今天较热，最高'+tMax+'°C';
-  if(avgT<=5) tempTip='🥶气温偏低，注意保暖';
 
   document.getElementById('app').innerHTML=`
     <div class="weather-card">
@@ -341,12 +382,15 @@ function renderWeather(data,locName,districtName){
       <div class="weather-extras">
         <span>💨 ${windDir(windDirDeg)} ${windLevel(curWindKMH)}</span>
         <span>💧 ${humidity}%</span>
-        <span>💨 ${curWindKMH}km/h</span>
         ${sunrise?`<span>🌅 ${sunrise}</span>`:''}
         ${sunset?`<span>🌇 ${sunset}</span>`:''}
       </div>
-      ${rainAlert?`<div class="rec-tip" style="margin-top:10px">${rainAlert}</div>`:''}
-      ${tempTip?`<div class="rec-tip ${tMax>=30?'hot':'cold'}" style="margin-top:6px">${tempTip}</div>`:''}
+      ${hourHTML?`
+      <div class="hourly-sect">
+        <div class="hourly-title">⏱ 小时预报</div>
+        <div class="hourly-scroll">${hourHTML}</div>
+      </div>`:''}
+      ${warns.map(w=>`<div class="warn-bar ${w.level}">${w.text}</div>`).join('')}
     </div>
     <div class="dressing-sect">
       <div class="dressing-title">👔 今日穿搭推荐</div>
