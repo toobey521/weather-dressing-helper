@@ -250,73 +250,94 @@ function dressMan(tMax, tMin, wCode, wind, precip){
   const snow=SNOW_CODES.includes(wCode);
   const strongWind=wind>25;
 
-  // 休闲
-  let cTop=[],cBot=[],cOut=[],cShoe=[],cAcc=[];
-  // 上班
-  let wTop=[],wBot=[],wOut=[],wShoe=[],wAcc=[];
+  let cTop=[],cBot=[],cOut=[],cShoe=[];
+  let wTop=[],wBot=[],wOut=[],wShoe=[];
+  // 配饰细分：手表/太阳镜/帽子/腰带/包袋/其他
+  let cWatch=[],cGlass=[],cHat=[],cBelt=[],cBag=[],cOther=[];
+  let wWatch=[],wGlass=[],wHat=[],wTie=[],wBelt=[],wBag=[],wOther=[];
   let tips=[];
 
   if(avg>=35){
-    cTop=['速干T恤','无袖背心']; cBot=['短裤','运动短裤']; cOut=[]; cShoe=['凉鞋','拖鞋']; cAcc=['遮阳帽','太阳镜','防晒袖套'];
-    wTop=['短袖衬衫','Polo衫']; wBot=['西裤','商务九分裤']; wOut=[]; wShoe=['透气皮鞋','乐福鞋']; wAcc=['太阳镜'];
-    tips.push('🥵 酷热！上班建议选浅色衬衫+透气材质');
+    cTop=['速干T恤','无袖背心','篮球背心']; cBot=['运动短裤','沙滩裤','薄短裤']; cOut=[]; cShoe=['凉拖','溯溪鞋','网面跑鞋'];
+    cWatch=['⌚ 运动电子表','⌚ 户外登山表']; cGlass=['🕶 偏光太阳镜','🕶 运动风镜']; cHat=['🧢 速干棒球帽','👒 遮阳渔夫帽']; cBelt=[]; cBag=['🎒 运动腰包','🎒 防水斜挎包']; cOther=['🧴 防晒霜','💪 防晒袖套','📿 运动手环'];
+    wTop=['短袖衬衫（浅色）','Polo衫（棉麻）']; wBot=['薄西裤','商务九分裤']; wOut=[]; wShoe=['透气乐福鞋','镂空皮鞋'];
+    wWatch=['⌚ 超薄商务手表','⌚ 皮带简约腕表']; wGlass=['🕶 方框偏光镜','🕶 绅士复古镜']; wHat=[]; wTie=['👔 浅色领带','👔 编织领带（免系）']; wBelt=['🔗 编织皮带','🔗 针扣皮带']; wBag=['💼 超薄公文包','🎒 帆布托特包']; wOther=['🧴 防晒霜'];
+    tips.push('🥵 酷热！首选浅色棉麻/速干材质，领带可选免系款');
   }else if(avg>=30){
-    cTop=['短袖T恤','背心']; cBot=['短裤','薄九分裤']; cOut=[]; cShoe=['运动鞋','凉鞋']; cAcc=['遮阳帽','太阳镜'];
-    wTop=['短袖衬衫','Polo衫']; wBot=['薄西裤','休闲商务裤']; wOut=['薄西装（可选）']; wShoe=['乐福鞋','透气皮鞋']; wAcc=['太阳镜'];
-    tips.push('🔥 炎热，浅色透气材质优先');
+    cTop=['短袖T恤','背心','速干Polo']; cBot=['运动短裤','薄九分裤','短裤']; cOut=[]; cShoe=['运动凉鞋','透气跑鞋','帆布鞋'];
+    cWatch=['⌚ 运动手表','⌚ 智能手环']; cGlass=['🕶 飞行员太阳镜','🕶 偏光镜']; cHat=['🧢 棒球帽','👒 防晒渔夫帽']; cBelt=['🔗 编织腰带']; cBag=['🎒 斜挎小包','🎒 腰包']; cOther=['🧴 防晒喷雾','📿 运动手环'];
+    wTop=['短袖衬衫','Polo衫（珠地）']; wBot=['薄西裤','九分卡其裤']; wOut=['薄西装（会议可选）']; wShoe=['乐福鞋','德式商务凉鞋'];
+    wWatch=['⌚ 钢带商务表','⌚ 尼龙带休闲表']; wGlass=['🕶 经典飞行员镜','🕶 半框商务镜']; wHat=[]; wTie=['👔 丝质领带','👔 印花领带']; wBelt=['🔗 针扣皮带（窄版）']; wBag=['💼 手拿信封包','🎒 帆布公文包']; wOther=['🧴 防晒霜'];
+    tips.push('🔥 炎热，建议短袖衬衫+轻商务，墨镜必备');
   }else if(avg>=25){
-    cTop=['短袖T恤','薄衬衫']; cBot=['休闲短裤','薄长裤']; cOut=['薄防晒外套（可选）']; cShoe=['运动鞋','帆布鞋']; cAcc=['太阳镜'];
-    wTop=['长袖衬衫','Polo衫']; wBot=['西裤','卡其裤']; wOut=[]; wShoe=['皮鞋','乐福鞋']; wAcc=[];
+    cTop=['短袖T恤','亨利衫','薄衬衫','Polo衫']; cBot=['休闲短裤','薄长裤','直筒牛仔裤']; cOut=['薄防晒外套（可选）']; cShoe=['复古运动鞋','帆布鞋','德训鞋'];
+    cWatch=['⌚ 潜水表','⌚ 尼龙带运动表']; cGlass=['🕶 复古圆框墨镜','🕶 蛤蟆镜']; cHat=['🧢 弯檐棒球帽','🧢 露营帽']; cBelt=['🔗 帆布腰带']; cBag=['🎒 邮差包','🎒 帆布双肩包']; cOther=['📿 皮质手链'];
+    wTop=['长袖衬衫（卷袖）','Polo衫']; wBot=['斜纹西裤','卡其裤','Chino裤']; wOut=[]; wShoe=['乐福鞋','德比鞋'];
+    wWatch=['⌚ 大三针正装表','⌚ 潜水钢表']; wGlass=['🕶 金属框复古镜']; wHat=[]; wTie=['👔 条纹领带','👔 波点领带']; wBelt=['🔗 皮质针扣腰带']; wBag=['💼 手提公文包','🎒 帆布托特']; wOther=['📿 简约手链'];
   }else if(avg>=20){
-    cTop=['T恤','Polo衫','薄长袖']; cBot=['休闲长裤','牛仔裤']; cOut=['薄夹克（早晚）']; cShoe=['运动鞋','板鞋'];
-    wTop=['衬衫','薄针织衫']; wBot=['西裤','休闲西裤']; wOut=['薄西装外套']; wShoe=['皮鞋','德比鞋'];
+    cTop=['T恤','Polo衫','薄长袖','亨利衫']; cBot=['休闲长裤','修身牛仔裤','工装短裤']; cOut=['薄夹克','牛仔衬衫（外穿）']; cShoe=['板鞋','复古跑鞋','帆布鞋'];
+    cWatch=['⌚ 潜水表','⌚ 卡西欧复古']; cGlass=[];
+    cHat=['🧢 棒球帽','🧢 卡车司机帽']; cBelt=['🔗 尼龙织带腰带']; cBag=['🎒 邮差包','🎒 帆布斜挎']; cOther=['📿 串珠手链'];
+    wTop=['衬衫','薄针织衫','牛津纺衬衫']; wBot=['西裤','休闲西裤','卡其裤']; wOut=['薄西装外套','猎装夹克']; wShoe=['德比鞋','孟克鞋'];
+    wWatch=['⌚ 正装皮带表','⌚ 计时码表']; wGlass=[]; wHat=[]; wTie=['👔 纯色领带','👔 针织领带']; wBelt=['🔗 皮质针扣腰带']; wBag=['💼 公文包']; wOther=['📿 简约手链'];
   }else if(avg>=15){
-    cTop=['长袖T恤','卫衣','衬衫']; cBot=['牛仔裤','工装裤']; cOut=['休闲夹克','牛仔外套']; cShoe=['运动鞋','帆布鞋'];
-    wTop=['衬衫','针织衫']; wBot=['西裤','卡其裤']; wOut=['风衣','休闲西装']; wShoe=['皮鞋','短靴'];
+    cTop=['长袖T恤','卫衣','衬衫（内搭）','牛仔衬衫']; cBot=['直筒牛仔裤','工装裤','束脚裤']; cOut=['休闲夹克','牛仔外套','飞行夹克']; cShoe=['运动鞋','帆布鞋','沙漠靴'];
+    cWatch=['⌚ 卡西欧G-Shock','⌚ 精工潜水']; cGlass=[]; cHat=['🧢 弯檐棒球帽','🧢 毛线帽（薄）']; cBelt=['🔗 帆布腰带','🔗 做旧皮带']; cBag=['🎒 帆布双肩包']; cOther=['📿 编织手绳'];
+    wTop=['衬衫','针织衫','牛津纺']; wBot=['西裤','卡其裤','羊毛混纺裤']; wOut=['风衣','休闲西装']; wShoe=['牛津鞋','切尔西靴','德比鞋'];
+    wWatch=['⌚ 正装皮带表','⌚ 飞行员']; wGlass=[]; wHat=[]; wTie=['👔 羊毛领带','👔 编织领带']; wBelt=['🔗 皮质针扣腰带']; wBag=['💼 手提公文包']; wOther=['🧣 口袋方巾'];
   }else if(avg>=10){
-    cTop=['卫衣','针织衫','连帽衫']; cBot=['加厚牛仔裤','束脚裤']; cOut=['夹克','风衣','棒球服']; cShoe=['运动鞋','帆布鞋']; cAcc=['棒球帽'];
-    wTop=['高领打底','衬衫+毛衣']; wBot=['加厚西裤','休闲裤']; wOut=['毛呢大衣','风衣']; wShoe=['切尔西靴','皮鞋'];
-    tips.push('🧥 微凉，上班建议叠穿（衬衫+毛衣+大衣）');
+    cTop=['卫衣','针织衫','连帽衫','亨利衫+外套']; cBot=['加厚牛仔裤','束脚卫裤','工装裤']; cOut=['夹克','风衣','棒球服','牛仔外套']; cShoe=['高帮帆布鞋','马丁靴','运动鞋'];
+    cWatch=['⌚ G-Shock','⌚ 运动电子表']; cGlass=[]; cHat=['🧢 棒球帽','🧢 冷帽']; cBelt=[]; cBag=['🎒 帆布双肩包','🎒 斜挎包']; cOther=['🧣 薄围巾'];
+    wTop=['高领打底+衬衫','毛衣','羊毛衫叠穿']; wBot=['加厚西裤','灯芯绒裤','休闲羊毛裤']; wOut=['毛呢大衣','风衣','切斯特大衣']; wShoe=['切尔西靴','德比鞋','布洛克鞋'];
+    wWatch=['⌚ 正装皮带表','⌚ 钢带运动表']; wGlass=[]; wHat=[]; wTie=['👔 羊毛领带','👔 粗纺领带']; wBelt=['🔗 皮质针扣腰带']; wBag=['💼 手提公文包','🎒 皮革双肩包']; wOther=['🧣 羊毛围巾','🧣 口袋方巾'];
+    tips.push('🧥 微凉，叠穿最佳（衬衫+毛衣+大衣），加一条围巾更有质感');
   }else if(avg>=5){
-    cTop=['厚卫衣','毛衣','摇粒绒']; cBot=['加绒长裤','工装裤']; cOut=['棉服','羽绒马甲','派克大衣']; cShoe=['高帮鞋','短靴']; cAcc=['围巾','毛线帽'];
-    wTop=['高领毛衣','衬衫+羊绒衫']; wBot=['加绒西裤','厚商务裤']; wOut=['羊毛大衣','羽绒服']; wShoe=['切尔西靴','厚底皮鞋']; wAcc=['围巾'];
-    tips.push('🥶 较冷，上班穿大衣+围巾，休闲穿厚卫衣+棉服');
+    cTop=['厚卫衣','毛衣','摇粒绒','连帽卫衣']; cBot=['加绒长裤','工装裤','厚牛仔裤']; cOut=['棉服','羽绒马甲','派克大衣']; cShoe=['高帮鞋','切尔西靴','工装靴'];
+    cWatch=['⌚ 运动电子表']; cGlass=[]; cHat=['🧢 毛线冷帽','🧢 绒线帽']; cBelt=[]; cBag=['🎒 双肩包']; cOther=['🧣 针织围巾','🧤 触屏手套'];
+    wTop=['高领毛衣','衬衫+羊绒衫','半高领针织']; wBot=['加绒西裤','厚羊毛裤','灯芯绒']; wOut=['羊毛大衣','羽绒服','泰迪大衣']; wShoe=['切尔西靴','厚底德比鞋'];
+    wWatch=['⌚ 正装皮带表']; wGlass=[]; wHat=[]; wTie=[]; wBelt=['🔗 皮质腰带']; wBag=['💼 皮革公文包']; wOther=['🧣 羊绒围巾','🧤 皮质手套','📿 袖扣'];
+    tips.push('🥶 较冷，上班穿大衣+围巾+手套，休闲厚卫衣+棉服');
   }else if(avg>=0){
-    cTop=['加绒卫衣','高领针织','摇粒绒']; cBot=['棉裤','加绒牛仔裤']; cOut=['羽绒服','厚棉服']; cShoe=['雪地靴','加绒靴']; cAcc=['围巾','手套','毛线帽'];
-    wTop=['保暖内衣+毛衣','羊绒高领']; wBot=['加绒商务裤','厚西裤']; wOut=['长款羽绒服','厚羊毛大衣']; wShoe=['加绒皮鞋','雪地靴']; wAcc=['围巾','手套'];
-    tips.push('🥶 寒冷，羽绒服+围巾是标配');
+    cTop=['加绒卫衣','高领针织','摇粒绒','厚毛衣']; cBot=['棉裤','加绒牛仔裤','雪地裤']; cOut=['羽绒服','厚棉服','派克大衣']; cShoe=['雪地靴','加绒马丁靴','工装靴'];
+    cWatch=[]; cGlass=[]; cHat=['🧢 加绒毛线帽','🧢 雷锋帽']; cBelt=[]; cBag=['🎒 双肩包']; cOther=['🧣 厚围巾','🧤 加绒手套','👂 耳罩'];
+    wTop=['保暖内衣+高领毛衣','羊绒衫','半高领打底']; wBot=['加绒商务裤','厚羊毛西裤']; wOut=['长款羽绒服','厚羊毛大衣','派克大衣']; wShoe=['加绒皮鞋','皮靴','雪地靴'];
+    wWatch=[]; wGlass=[]; wHat=[]; wTie=[]; wBelt=['🔗 皮质腰带']; wBag=['💼 大容量公文包']; wOther=['🧣 厚羊毛围巾','🧤 加绒皮手套','👂 耳罩'];
+    tips.push('🥶 寒冷，羽绒服+围巾+手套三件套，耳罩防冻耳');
   }else{
-    cTop=['保暖内衣+厚毛衣','抓绒衣']; cBot=['棉裤','加绒冲锋裤']; cOut=['长款羽绒服','派克大衣']; cShoe=['加厚雪地靴','防滑靴']; cAcc=['围巾','手套','毛线帽','耳罩'];
-    wTop=['保暖内衣+厚羊绒','高领毛衣']; wBot=['棉裤','加绒商务裤']; wOut=['长款厚羽绒服','派克大衣']; wShoe=['防滑加绒靴','雪地靴']; wAcc=['围巾','手套','毛线帽'];
-    tips.push('❄️ 严寒！全副武装，减少外出');
+    cTop=['保暖内衣+厚毛衣',"抓绒衣+防风层","羽绒内胆+卫衣"]; cBot=['棉裤','加绒冲锋裤','双层雪裤']; cOut=['长款羽绒服','派克大衣','防风冲锋衣']; cShoe=['加厚雪地靴','防滑靴','羊毛靴'];
+    cWatch=[]; cGlass=[]; cHat=['🧢 加绒雷锋帽','🧢 滑雪面罩']; cBelt=[]; cBag=['🎒 防水双肩包']; cOther=['🧣 加厚围巾','🧤 滑雪手套','👂 耳罩','暖宝宝'];
+    wTop=['保暖内衣+厚羊绒','高领毛衣叠穿','功能性内搭']; wBot=['棉裤','加绒商务裤','厚羊毛裤']; wOut=['长款厚羽绒服','派克大衣','防风大衣']; wShoe=['防滑加绒靴','羊毛雪地靴'];
+    wWatch=[]; wGlass=[]; wHat=['🧢 毛线帽']; wTie=[]; wBelt=[]; wBag=['💼 大容量托特包']; wOther=['🧣 厚围巾','🧤 防水滑雪手套','👂 耳罩','暖宝宝'];
+    tips.push('❄️ 严寒！全副武装，减少户外时间');
   }
 
   // 雨天调整
   if(rain){
-    cOut=cOut.length?['防水外套',...cOut]:['防水外套'];
-    wOut=wOut.length?['防水外套',...wOut]:['防水外套'];
-    cShoe=['防水鞋','防滑鞋']; wShoe=['防水商务鞋','防滑皮鞋'];
-    cAcc=[...cAcc.filter(a=>!a.includes('帽')||a.includes('防水')),'雨伞'];
-    wAcc=[...wAcc,'雨伞'];
-    tips.push('🌧 今天有雨，带伞+防水鞋');
+    cOut=cOut.length?['🧥 防水冲锋衣',...cOut]:['🧥 防水冲锋衣'];
+    wOut=wOut.length?['🧥 防水大衣',...wOut]:['🧥 防水大衣'];
+    cShoe=['🥾 防水登山鞋','防滑鞋']; wShoe=['🥾 防水商务鞋','防滑皮鞋'];
+    cWatch=cWatch.filter(a=>!a.includes('皮质')); wWatch=wWatch.filter(a=>!a.includes('皮质'));
+    cOther=[...cOther.filter(a=>!a.includes('防晒')),'🌂 折叠雨伞'];
+    wOther=[...wOther,'🌂 商务长柄伞'];
+    tips.push('🌧 今天有雨，带伞+防水鞋，皮质表带注意防潮');
   }
   if(snow){
-    cOut.unshift('防水羽绒服'); wOut.unshift('防水羽绒服');
-    cShoe=['防水加绒靴']; wShoe=['防水商务靴'];
-    cAcc.push('雨伞'); wAcc.push('雨伞');
-    tips.push('❄️ 下雪天，注意防滑');
+    cOut.unshift('🧥 防水羽绒服'); wOut.unshift('🧥 防水羽绒服');
+    cShoe=['🥾 防水加绒靴']; wShoe=['🥾 防水商务靴'];
+    cOther.push('🌂 雨伞'); wOther.push('🌂 雨伞');
+    tips.push('❄️ 雪天注意防滑，穿防水加绒靴');
   }
   if(strongWind){
-    if(cOut.length) cOut[0]=cOut[0].includes('防水')?cOut[0]:'防风外套';
-    else cOut.push('防风外套');
-    if(wOut.length) wOut[0]=wOut[0].includes('防水')?wOut[0]:'防风外套';
-    else wOut.push('防风外套');
-    tips.push('💨 风大，穿防风外套');
+    if(cOut.length&&!cOut[0].includes('防风')) cOut.unshift('🧥 防风外套');
+    else if(!cOut.length) cOut.push('🧥 防风外套');
+    if(wOut.length&&!wOut[0].includes('防风')) wOut.unshift('🧥 防风外套');
+    else if(!wOut.length) wOut.push('🧥 防风外套');
+    tips.push('💨 风大，穿防风外套，围巾可挡风');
   }
 
   return {
-    casual:{top:uniq(cTop),bottom:uniq(cBot),outer:uniq(cOut),shoes:uniq(cShoe),accessories:uniq(cAcc)},
-    work:{top:uniq(wTop),bottom:uniq(wBot),outer:uniq(wOut),shoes:uniq(wShoe),accessories:uniq(wAcc)},
+    casual:{top:uniq(cTop),bottom:uniq(cBot),outer:uniq(cOut),shoes:uniq(cShoe),accessories:uniq([...cWatch,...cGlass,...cHat,...cBelt,...cBag,...cOther])},
+    work:{top:uniq(wTop),bottom:uniq(wBot),outer:uniq(wOut),shoes:uniq(wShoe),accessories:uniq([...wWatch,...wGlass,...wHat,...wTie,...wBelt,...wBag,...wOther])},
     tips:uniq(tips)
   };
 }
@@ -327,69 +348,91 @@ function dressWoman(tMax, tMin, wCode, wind, precip){
   const snow=SNOW_CODES.includes(wCode);
   const strongWind=wind>25;
 
-  let cTop=[],cBot=[],cOut=[],cShoe=[],cAcc=[];
-  let wTop=[],wBot=[],wOut=[],wShoe=[],wAcc=[];
+  let cTop=[],cBot=[],cOut=[],cShoe=[];
+  let wTop=[],wBot=[],wOut=[],wShoe=[];
+  // 配饰细分：耳环/手镯/项链/戒指/丝巾/帽子/包包/其他
+  let cEar=[],cBracelet=[],cNecklace=[],cRing=[],cScarf=[],cHat=[],cBag=[],cOther=[];
+  let wEar=[],wBracelet=[],wNecklace=[],wRing=[],wScarf=[],wHat=[],wBag=[],wOther=[];
   let tips=[];
 
   if(avg>=35){
-    cTop=['吊带背心','短袖T恤']; cBot=['短裤','短裙','阔腿裤']; cOut=[]; cShoe=['凉鞋','拖鞋']; cAcc=['遮阳帽','太阳镜','防晒袖套','遮阳伞'];
-    wTop=['真丝衬衫','短袖雪纺']; wBot=['西装短裙','薄阔腿西裤']; wOut=[]; wShoe=['浅口单鞋','凉鞋']; wAcc=['太阳镜','遮阳伞'];
-    tips.push('🥵 酷热！上班选真丝/雪纺材质，防晒必备');
+    cTop=['吊带背心','短袖T恤','雪纺衫','抹胸']; cBot=['牛仔短裤','短裙','阔腿裤','热裤']; cOut=[]; cShoe=['凉拖','一字带凉鞋','网面跑鞋'];
+    cEar=['📿 简约耳钉','📿 贝壳耳坠']; cBracelet=['💎 细链手链','📿 编织手绳']; cNecklace=['📿 锁骨链','📿 珍珠短链']; cRing=['💍 细戒指叠戴']; cScarf=[]; cHat=['👒 大檐防晒帽','🧢 棒球帽']; cBag=['👜 帆布托特包','👛 迷你斜挎']; cOther=['🕶 猫眼太阳镜','🧴 防晒喷雾','☂ 遮阳伞'];
+    wTop=['真丝衬衫','雪纺衬衫','无袖西装']; wBot=['西装短裙','九分西裤','阔腿西裤']; wOut=['薄西装（可选）']; wShoe=['浅口细跟','一字带凉鞋','方跟单鞋'];
+    wEar=['💎 珍珠耳钉','💎 金属几何耳环']; wBracelet=['💎 细金手链','⌚ 时装腕表']; wNecklace=['📿 珍珠项链','📿 锁骨链']; wRing=['💍 单钻戒指']; wScarf=['🧣 真丝小方巾']; wHat=[]; wBag=['👜 手提托特包','👛 链条包']; wOther=['🕶 复古太阳镜'];
+    tips.push('🥵 酷热！首选真丝/雪纺，耳钉选金属或珍珠清爽款');
   }else if(avg>=30){
-    cTop=['吊带','短袖T恤','雪纺衫']; cBot=['牛仔短裤','短裙','阔腿裤']; cOut=['薄防晒开衫（可选）']; cShoe=['凉鞋','帆布鞋']; cAcc=['太阳镜','遮阳帽'];
-    wTop=['雪纺衬衫','真丝衬衫']; wBot=['西装短裙','九分西裤']; wOut=['薄小西装（可选）']; wShoe=['单鞋','低跟凉鞋']; wAcc=['太阳镜'];
-    tips.push('🔥 炎热选浅色，丝质/雪纺更透气');
+    cTop=['吊带','短袖T恤','雪纺衫','背心裙']; cBot=['牛仔短裤','短裙','阔腿裤','百褶短裙']; cOut=['薄防晒开衫（可选）']; cShoe=['凉鞋','帆布鞋','小白鞋','一字带凉鞋'];
+    cEar=['📿 圈圈耳环','📿 流苏耳坠']; cBracelet=['💎 串珠手链','📿 彩色编织']; cNecklace=['📿 锁骨链','📿 硬币项链']; cRing=['💍 开口戒指']; cScarf=[]; cHat=['🧢 棒球帽','👒 草帽']; cBag=['🎒 草编包','👜 帆布包']; cOther=['🕶 飞行员墨镜','🧴 防晒霜'];
+    wTop=['雪纺衬衫','真丝衬衫','针织短袖']; wBot=['九分西裤','A字裙','直筒裙']; wOut=['薄小西装']; wShoe=['方跟单鞋','尖头平底','乐福鞋'];
+    wEar=['💎 珍珠耳钉','💎 几何耳环']; wBracelet=['💎 细金手链','⌚ 细带时装表']; wNecklace=['📿 珍珠短链','📿 锁骨链']; wRing=['💍 素圈戒指']; wScarf=['🧣 真丝长丝巾']; wHat=[]; wBag=['👜 链条包','👛 手提托特']; wOther=['🕶 方框太阳镜'];
+    tips.push('🔥 炎热，选浅色雪纺/真丝，耳环选清爽款');
   }else if(avg>=25){
-    cTop=['T恤','雪纺衫','连衣裙']; cBot=['短裙','牛仔短裤','薄长裤']; cOut=['薄针织开衫（早晚）']; cShoe=['帆布鞋','小白鞋','单鞋']; cAcc=['太阳镜'];
-    wTop=['衬衫','雪纺衫']; wBot=['西裤','半身裙']; wOut=['薄西装外套']; wShoe=['乐福鞋','低跟单鞋']; wAcc=[];
+    cTop=['T恤','雪纺衫','连衣裙','茶歇裙']; cBot=['短裙','牛仔短裤','薄长裤','A字裙']; cOut=['薄针织开衫（早晚）']; cShoe=['帆布鞋','小白鞋','单鞋','玛丽珍'];
+    cEar=['📿 耳钉','📿 小圈耳环']; cBracelet=['💎 细手链','📿 串珠']; cNecklace=['📿 锁骨链','📿 吊坠']; cRing=['💍 细戒指']; cScarf=[]; cHat=['🧢 弯檐棒球帽','👒 平顶草帽']; cBag=['👜 帆布托特','🎒 草编包']; cOther=['🕶 复古圆框墨镜'];
+    wTop=['衬衫','雪纺衫','真丝飘带衫']; wBot=['西裤','半身裙','烟管裤']; wOut=['薄西装外套','小香风外套']; wShoe=['乐福鞋','芭蕾平底鞋','方跟单鞋'];
+    wEar=['💎 珍珠耳坠','💎 金属耳环']; wBracelet=['💎 细金手镯','⌚ 时装表']; wNecklace=['📿 珍珠项链','📿 锁骨链']; wRing=['💍 单钻戒指','💍 叠戴戒指']; wScarf=['🧣 小方巾领结']; wHat=[]; wBag=['👜 手提包','👛 链条斜挎']; wOther=[];
   }else if(avg>=20){
-    cTop=['衬衫','T恤','针织上衣']; cBot=['牛仔裤','半身裙','休闲裤']; cOut=['薄外套','牛仔夹克（早晚）']; cShoe=['运动鞋','帆布鞋','乐福鞋'];
-    wTop=['衬衫','针织开衫']; wBot=['西裤','A字裙','直筒裤']; wOut=['小香风外套','薄风衣']; wShoe=['乐福鞋','芭蕾鞋'];
+    cTop=['衬衫','T恤','针织上衣','法式上衣']; cBot=['牛仔裤','半身裙','休闲裤','百褶裙']; cOut=['薄外套','牛仔夹克','针织开衫']; cShoe=['运动鞋','帆布鞋','乐福鞋','玛丽珍'];
+    cEar=['📿 珍珠耳钉','📿 金属耳环']; cBracelet=['💎 细手链','📿 皮质手环']; cNecklace=['📿 锁骨链','📿 短项链']; cRing=['💍 细戒指']; cScarf=['🧣 窄丝巾']; cHat=['🧢 棒球帽','🧢 报童帽']; cBag=['👜 斜挎包','🎒 帆布双肩']; cOther=[];
+    wTop=['衬衫','针织开衫','飘带衬衫','西装马甲']; wBot=['西裤','A字裙','直筒裤','铅笔裙']; wOut=['小香风外套','薄风衣']; wShoe=['乐福鞋','芭蕾鞋','粗跟鞋'];
+    wEar=['💎 珍珠耳坠','💎 金属几何']; wBracelet=['💎 细手链','⌚ 细带表']; wNecklace=['📿 珍珠项链','📿 锁骨链']; wRing=['💍 单钻戒指']; wScarf=['🧣 丝巾领结','🧣 长丝巾']; wHat=[]; wBag=['👜 托特包','👛 链条包']; wOther=[];
   }else if(avg>=15){
-    cTop=['针织衫','卫衣','衬衫']; cBot=['牛仔裤','阔腿裤','长裙']; cOut=['风衣','牛仔外套','棒球服']; cShoe=['运动鞋','短靴','帆布鞋']; cAcc=['棒球帽'];
-    wTop=['衬衫+针织马甲','雪纺衫+薄开衫']; wBot=['烟管裤','中长半身裙']; wOut=['风衣','西装外套']; wShoe=['短靴','乐福鞋']; wAcc=['丝巾（可选）'];
+    cTop=['针织衫','卫衣','衬衫','法式条纹衫']; cBot=['牛仔裤','阔腿裤','长裙','百褶裙']; cOut=['风衣','牛仔外套','棒球服','针织开衫']; cShoe=['运动鞋','短靴','帆布鞋','马丁靴'];
+    cEar=['📿 圈圈耳环','📿 金属耳坠']; cBracelet=['💎 手链叠戴','📿 手表+手链']; cNecklace=['📿 锁骨链','📿 长吊坠']; cRing=['💍 戒指叠戴']; cScarf=['🧣 小方巾','🧣 窄丝巾']; cHat=['🧢 报童帽','🧢 贝雷帽']; cBag=['👜 斜挎包','🎒 帆布双肩']; cOther=['📿 脚链'];
+    wTop=['衬衫+针织马甲','雪纺衫+开衫','修身针织']; wBot=['烟管裤','中长半身裙','直筒西裤']; wOut=['风衣','西装外套','毛呢小香风']; wShoe=['短靴','乐福鞋','方跟靴','切尔西'];
+    wEar=['💎 珍珠耳钉','💎 金属水滴']; wBracelet=['💎 细金手链','⌚ 皮带时装表']; wNecklace=['📿 短项链','📿 锁骨链']; wRing=['💍 珍珠戒指','💍 素圈']; wScarf=['🧣 真丝长巾','🧣 羊毛围巾（薄）']; wHat=[]; wBag=['👜 手提包','👛 链条包']; wOther=['📿 袖口装饰'];
   }else if(avg>=10){
-    cTop=['厚针织衫','卫衣','连帽衫']; cBot=['加厚牛仔裤','针织长裙']; cOut=['毛呢外套','风衣','羊羔绒']; cShoe=['短靴','厚底运动鞋']; cAcc=['围巾','毛线帽'];
-    wTop=['高领打底+衬衫','针织连衣裙']; wBot=['加厚西裤','直筒裙']; wOut=['毛呢大衣','风衣']; wShoe=['切尔西靴','粗跟短靴']; cAcc=['围巾'];
-    tips.push('🧥 微凉，叠穿更有层次');
+    cTop=['厚针织衫','卫衣','连帽衫','毛衣']; cBot=['加厚牛仔裤','针织长裙','灯芯绒裤']; cOut=['毛呢外套','风衣','羊羔绒','派克大衣']; cShoe=['短靴','厚底运动鞋','马丁靴'];
+    cEar=['📿 圈圈耳环','📿 金属耳坠']; cBracelet=['💎 手表','📿 手链叠戴']; cNecklace=['📿 毛衣链','📿 长吊坠']; cRing=['💍 宽版戒指']; cScarf=['🧣 厚围巾','🧣 羊毛围巾']; cHat=['🧢 贝雷帽','🧢 毛线帽']; cBag=['👜 斜挎包','🎒 双肩包']; cOther=['📿 脚链'];
+    wTop=['高领打底+衬衫','针织连衣裙','衬衫+毛衣']; wBot=['加厚西裤','直筒裙','毛呢半身裙']; wOut=['毛呢大衣','风衣','西装外套']; wShoe=['切尔西靴','粗跟短靴','乐福鞋'];
+    wEar=['💎 珍珠耳钉','💎 金色圆圈']; wBracelet=['💎 细金手镯','⌚ 时装腕表']; wNecklace=['📿 珍珠项链','📿 锁骨链']; wRing=['💍 单钻戒指']; wScarf=['🧣 羊毛围巾','🧣 真丝长巾']; wHat=[]; wBag=['👜 托特包','👛 链条包']; wOther=['🧣 披肩（可选）'];
+    tips.push('🧥 微凉，叠穿很有层次，加一顶贝雷帽或围巾增色');
   }else if(avg>=5){
-    cTop=['毛衣','加绒卫衣','高领针织']; cBot=['加绒裤','厚半身裙+打底裤']; cOut=['毛呢大衣','棉服','羽绒马甲']; cShoe=['长靴','厚底短靴']; cAcc=['围巾','毛线帽'];
-    wTop=['高领毛衣','修身针织连衣裙']; wBot=['加绒直筒裤','厚半身裙']; wOut=['长款毛呢大衣','羽绒服']; wShoe=['粗跟长靴','厚底短靴']; wAcc=['围巾'];
-    tips.push('🥶 较冷，大衣+靴子+围巾');
+    cTop=['毛衣','加绒卫衣','高领针织','厚开衫']; cBot=['加绒裤','厚半身裙+打底裤','灯芯绒裤']; cOut=['毛呢大衣','棉服','羽绒马甲','皮毛一体']; cShoe=['长靴','厚底短靴','马丁靴','雪地靴'];
+    cEar=['📿 毛球耳坠','📿 金色小圈']; cBracelet=['💎 手表','📿 手链']; cNecklace=['📿 毛衣链','📿 短项链']; cRing=['💍 宽版戒指']; cScarf=['🧣 厚羊绒围巾']; cHat=['🧢 贝雷帽','🧢 毛线帽','🧢 画家帽']; cBag=['👜 斜挎包','🎒 双肩包']; cOther=['🧤 触屏手套'];
+    wTop=['高领毛衣','修身针织连衣裙','衬衫+羊绒衫']; wBot=['加绒直筒裤','厚半身裙','毛呢西裤']; wOut=['长款毛呢大衣','羽绒服','派克大衣']; wShoe=['粗跟长靴','厚底短靴','切尔西'];
+    wEar=['💎 珍珠耳钉','💎 金属耳环']; wBracelet=['💎 细金手镯','⌚ 皮带表']; wNecklace=['📿 珍珠短链','📿 锁骨链']; wRing=['💍 珍珠戒指']; wScarf=['🧣 羊绒围巾','🧣 羊毛披肩']; wHat=[]; wBag=['👜 托特包','💼 手提公文包']; wOther=['🧤 皮手套'];
+    tips.push('🥶 较冷，大衣+靴子+围巾，加一顶贝雷帽更时髦');
   }else if(avg>=0){
-    cTop=['保暖内衣+毛衣','羊绒衫']; cBot=['加绒厚裤','厚裙+加绒打底裤']; cOut=['长款羽绒服','厚呢大衣']; cShoe=['雪地靴','加绒长靴']; cAcc=['围巾','手套','毛线帽'];
-    wTop=['保暖内衣+羊绒衫','高领针织连衣裙']; wBot=['加绒西裤','厚裙+打底裤']; wOut=['长款羽绒服','派克大衣']; wShoe=['加绒靴','雪地靴']; wAcc=['围巾','手套'];
-    tips.push('🥶 寒冷，羽绒服安排上');
+    cTop=['保暖内衣+毛衣','羊绒衫','厚高领','厚开衫']; cBot=['加绒厚裤','厚裙+加绒打底裤','雪地半身裙']; cOut=['长款羽绒服','厚呢大衣','派克大衣','皮毛一体']; cShoe=['雪地靴','加绒长靴','厚底马丁靴'];
+    cEar=['📿 毛线球耳环','📿 珍珠小圈']; cBracelet=[]; cNecklace=['📿 毛衣链']; cRing=[]; cScarf=['🧣 厚羊绒围巾','🧣 羊毛大披肩']; cHat=['🧢 毛线帽','🧢 贝雷帽','👒 雷锋帽']; cBag=['🎒 双肩包','👜 大容量托特']; cOther=['🧤 加绒手套','👂 耳罩'];
+    wTop=['保暖内衣+羊绒衫','高领针织连衣裙','厚毛衣+半身裙']; wBot=['加绒西裤','厚裙+打底裤','羊毛西裤']; wOut=['长款羽绒服','派克大衣','厚羊毛大衣']; wShoe=['加绒靴','雪地靴','粗跟皮靴'];
+    wEar=['💎 珍珠耳钉']; wBracelet=[]; wNecklace=[]; wRing=[]; wScarf=['🧣 厚羊绒围巾','🧣 羊毛披肩']; wHat=[]; wBag=['👜 大容量托特','💼 公文包']; wOther=['🧤 加绒皮手套','👂 耳罩'];
+    tips.push('🥶 寒冷，羽绒服+围巾+靴子，耳罩防止耳朵冻伤');
   }else{
-    cTop=['保暖内衣+厚羊绒衫','抓绒衣']; cBot=['棉裤','加绒冲锋裤']; cOut=['长款厚羽绒服','派克大衣']; cShoe=['加厚雪地靴','防滑雪地靴']; cAcc=['围巾','手套','毛线帽','耳罩'];
-    wTop=['保暖内衣+厚羊绒','高领毛衣']; wBot=['棉裤','加绒商务裤']; wOut=['长款厚羽绒服','派克大衣']; wShoe=['防滑加绒靴','雪地靴']; wAcc=['围巾','手套','毛线帽'];
-    tips.push('❄️ 严寒！全副武装，注意防滑');
+    cTop=['保暖内衣+厚羊绒衫','抓绒衣+厚毛衣','厚高领打底']; cBot=['棉裤','加绒冲锋裤','厚雪地裙+打底裤']; cOut=['长款厚羽绒服','派克大衣','防风冲锋衣']; cShoe=['加厚雪地靴','防滑雪地靴','羊毛靴'];
+    cEar=[]; cBracelet=[]; cNecklace=[]; cRing=[]; cScarf=['🧣 加厚羊毛围巾','🧣 仿皮草围脖']; cHat=['🧢 加绒雷锋帽','🧢 滑雪面罩']; cBag=['🎒 防水双肩包']; cOther=['🧤 滑雪手套','👂 耳罩','暖宝宝','🧴 防冻霜'];
+    wTop=['保暖内衣+厚羊绒','高领毛衣+衬衫叠穿']; wBot=['棉裤','加绒商务裤','厚羊毛裤']; wOut=['长款厚羽绒服','派克大衣','防风大衣']; wShoe=['防滑加绒靴','羊毛雪地靴','粗跟皮靴'];
+    wEar=[]; wBracelet=[]; wNecklace=[]; wRing=[]; wScarf=['🧣 厚羊绒围巾']; wHat=[]; wBag=['👜 大容量托特包']; wOther=['🧤 加绒皮手套','👂 耳罩','暖宝宝'];
+    tips.push('❄️ 严寒！全副武装，减少户外时间');
   }
 
   if(rain){
-    cOut=cOut.length?['防水外套',...cOut]:['防水外套'];
-    wOut=wOut.length?['防水外套',...wOut]:['防水外套'];
-    cShoe=['防水平底鞋','雨鞋']; wShoe=['防水单鞋','低跟雨靴'];
-    cAcc=[...cAcc.filter(a=>!a.includes('伞')),'雨伞'];
-    wAcc=[...wAcc,'雨伞'];
-    tips.push('🌧 今天有雨，带伞+防水平底鞋');
+    cOut=cOut.length?['🧥 防水风衣',...cOut]:['🧥 防水风衣'];
+    wOut=wOut.length?['🧥 防水风衣',...wOut]:['🧥 防水风衣'];
+    cShoe=['☂ 防水平底鞋','短雨靴']; wShoe=['☂ 低跟雨靴','防水单鞋'];
+    cOther=[...cOther.filter(a=>!a.includes('伞')&&!a.includes('防晒')),'🌂 透明雨伞'];
+    wOther=[...wOther,'🌂 长柄雨伞'];
+    cBag=cBag.filter(b=>!b.includes('草编')); // 草编包怕雨
+    tips.push('🌧 今天有雨，带透明雨伞+防水鞋，草编包换帆布包');
   }
   if(snow){
-    cOut.unshift('防水羽绒服'); wOut.unshift('防水羽绒服');
-    cShoe=['防滑雪地靴']; wShoe=['防水加绒靴'];
-    cAcc.push('雨伞'); wAcc.push('雨伞');
+    cOut.unshift('🧥 防水羽绒服'); wOut.unshift('🧥 防水羽绒服');
+    cShoe=['🥾 防滑雪地靴']; wShoe=['🥾 防水加绒靴'];
+    tips.push('❄️ 雪天防滑，穿防滑雪地靴');
   }
   if(strongWind){
-    if(cOut.length) cOut[0]=cOut[0].includes('防水')?cOut[0]:'防风外套';
-    else cOut.push('防风外套');
-    if(wOut.length) wOut[0]=wOut[0].includes('防水')?wOut[0]:'防风外套';
-    else wOut.push('防风外套');
-    tips.push('💨 风大，注意防风');
+    if(cOut.length&&!cOut[0].includes('防风')) cOut.unshift('🧥 防风大衣');
+    else if(!cOut.length) cOut.push('🧥 防风大衣');
+    if(wOut.length&&!wOut[0].includes('防风')) wOut.unshift('🧥 防风大衣');
+    else if(!wOut.length) wOut.push('🧥 防风大衣');
+    tips.push('💨 风大，系好丝巾/围巾防灌风');
   }
 
   return {
-    casual:{top:uniq(cTop),bottom:uniq(cBot),outer:uniq(cOut),shoes:uniq(cShoe),accessories:uniq(cAcc)},
-    work:{top:uniq(wTop),bottom:uniq(wBot),outer:uniq(wOut),shoes:uniq(wShoe),accessories:uniq(wAcc)},
+    casual:{top:uniq(cTop),bottom:uniq(cBot),outer:uniq(cOut),shoes:uniq(cShoe),accessories:uniq([...cEar,...cBracelet,...cNecklace,...cRing,...cScarf,...cHat,...cBag,...cOther])},
+    work:{top:uniq(wTop),bottom:uniq(wBot),outer:uniq(wOut),shoes:uniq(wShoe),accessories:uniq([...wEar,...wBracelet,...wNecklace,...wRing,...wScarf,...wHat,...wBag,...wOther])},
     tips:uniq(tips)
   };
 }
