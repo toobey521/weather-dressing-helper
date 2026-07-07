@@ -588,25 +588,56 @@ async function reverseGeo(lat, lon){
 // ─── 主流程 ───
 document.getElementById('todayDate').textContent=new Date().toLocaleDateString('zh-CN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 
+const CACHE_KEY='wx_city_v1';
+
 navigator.geolocation.getCurrentPosition(async pos=>{
   const {latitude,longitude}=pos.coords;
-  try{
-    document.getElementById('loadingState').innerHTML='<div class="spinner"></div><div>正在查询天气…</div>';
-    const [weather,loc]=await Promise.all([fetchWeather(latitude,longitude),reverseGeo(latitude,longitude)]);
-    renderWeather(weather, loc.city, loc.district);
-  }catch(e){
-    showError('天气数据获取失败，请检查网络后重试');
-    console.error(e);
+  document.getElementById('loadingState').innerHTML='<div class="spinner"></div><div>正在查询天气…</div>';
+
+  // 先读缓存的城市场名，立即展示（如果已有）
+  const cached=localStorage.getItem(CACHE_KEY);
+  if(cached){
+    try{
+      const c=JSON.parse(cached);
+      // 先渲染占位天气卡片（数据稍后到）
+      document.getElementById('app').innerHTML=`
+        <div class="weather-card">
+          <div class="weather-location">${c.city||'加载中…'}</div>
+          ${c.district?`<div class="district">${c.district}</div>`:''}
+          <div class="weather-main">
+            <div><div class="weather-temp">--°<span class="range">--° ~ --°</span></div></div>
+            <div class="weather-icon">⏳</div>
+          </div>
+          <div class="weather-desc">数据加载中…</div>
+        </div>
+        <div class="loading" style="padding:30px"><div class="spinner"></div><div>获取天气数据…</div></div>`;
+    }catch(_){}
   }
+
+  // 并行请求天气 + 逆地理编码
+  const [weather,loc]=await Promise.all([
+    fetchWeather(latitude,longitude),
+    reverseGeo(latitude,longitude).then(loc=>{
+      localStorage.setItem(CACHE_KEY,JSON.stringify(loc));
+      return loc;
+    })
+  ]);
+  renderWeather(weather, loc.city, loc.district);
 }, err=>{
-  document.getElementById('loadingState').innerHTML='<div class="spinner"></div><div>定位失败，使用默认城市…</div>';
-  const defLat=36.45, defLon=115.98; // 聊城
-  Promise.all([fetchWeather(defLat,defLon),reverseGeo(defLat,defLon)]).then(([weather,loc])=>{
-    renderWeather(weather, loc.city, loc.district+'（默认）');
+  // 定位失败——尝试用缓存的城市场名+默认坐标
+  const cached=localStorage.getItem(CACHE_KEY);
+  let cityName='',districtName='';
+  if(cached){
+    try{const c=JSON.parse(cached);cityName=c.city;districtName=c.district;}catch(_){}
+  }
+  document.getElementById('loadingState').innerHTML='<div class="spinner"></div><div>定位失败，按上次位置查询…</div>';
+  const defLat=36.45, defLon=115.98;
+  fetchWeather(defLat,defLon).then(weather=>{
+    renderWeather(weather, cityName||'当前位置', districtName?districtName+'（默认）':'（默认）');
   }).catch(()=>{
-    showError('定位权限被拒绝，请允许定位或检查网络');
+    showError('定位失败，请检查网络后重试');
   });
-},{enableHighAccuracy:false,timeout:8000});
+},{enableHighAccuracy:false,timeout:6000});
 
 function showError(msg){
   document.getElementById('app').innerHTML=`
