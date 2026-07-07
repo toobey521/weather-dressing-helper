@@ -118,13 +118,15 @@ async function qFetch(path,loc){
 
 async function fetchQWeather(lat,lon){
   const loc=`${lon},${lat}`;
-  const[nowR,hr24R,d3R]=await Promise.all([
+  const[nowR,hr24R,d3R,aqiR]=await Promise.all([
     qFetch('/v7/weather/now',loc),
     qFetch('/v7/weather/24h',loc),
-    qFetch('/v7/weather/3d',loc)
+    qFetch('/v7/weather/3d',loc),
+    fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=european_aqi,us_aqi,pm2_5,pm10`).then(r=>r.ok?r.json():{})
   ]);
   if(nowR.code!=='200'||!nowR.now) throw new Error('数据异常');
-  return{now:nowR.now,hourly:hr24R.hourly||[],daily:d3R.daily||[]};
+  const aqi=aqiR?.current?.european_aqi||null;
+  return{now:nowR.now,hourly:hr24R.hourly||[],daily:d3R.daily||[],aqi};
 }
 
 // ─── 穿搭引擎 ───
@@ -302,17 +304,23 @@ function renderQW(data,locName,districtName){
   const tMin=dd.tempMin||'--';
   const dText=dd.textDay||wText;
 
-  // WMO（穿搭用）
+  const aqi=data.aqi;
+  let aqiLevel='',aqiColor='';
+  if(aqi!==null){
+    if(aqi<=50){aqiLevel='优';aqiColor='#00e400';}
+    else if(aqi<=100){aqiLevel='良';aqiColor='#ffff00';}
+    else if(aqi<=150){aqiLevel='轻度';aqiColor='#ff7e00';}
+    else if(aqi<=200){aqiLevel='中度';aqiColor='#ff0000';}
+    else if(aqi<=300){aqiLevel='重度';aqiColor='#99004c';}
+    else{aqiLevel='严重';aqiColor='#7e0023';}
+  }
   const wmo=qToWmo(wText);
   const wSpeed=parseInt(n.windSpeed||'0')||0;
   const hasRain=data.hourly.some(x=>parseInt(x.pop||'0')>=50)||['雨','雷'].some(k=>wText.includes(k));
 
   // 小时预报
   let hHTML='';
-  const nowH=parseInt(data.hourly[0]?.fxTime?.substring(11,13)||h);
   for(const hr of data.hourly){
-    const hh=parseInt(hr.fxTime.substring(11,13));
-    if(hh<nowH-1) continue;
     if(hHTML.split('<div class="h-item').length>24) break;
     hHTML+=`<div class="h-item"><div>${hr.fxTime.substring(11,16)}</div><div class="h-i">${wIcon(hr.text)}</div><div class="h-t">${hr.temp}°</div>${parseInt(hr.pop||'0')>=30?`<div class="h-r">💧${hr.pop}%</div>`:''}</div>`;
   }
@@ -347,6 +355,7 @@ function renderQW(data,locName,districtName){
       <div class="weather-extras">
         <div class="ex"><span class="ex-i">💨</span><span>${wDir}</span><span class="ex-v">${wScale}级</span></div>
         <div class="ex"><span class="ex-i">💧</span><span>湿度</span><span class="ex-v">${hum}%</span></div>
+        <div class="ex"><span class="ex-i">🌿</span><span>AQI</span><span class="ex-v" style="color:${aqiColor}">${aqi!==null?aqi+' '+aqiLevel:'--'}</span></div>
         <div class="ex"><span class="ex-i">🌅</span><span>日出</span><span class="ex-v">${dd.sunrise||'--'}</span></div>
         <div class="ex"><span class="ex-i">🌇</span><span>日落</span><span class="ex-v">${dd.sunset||'--'}</span></div>
       </div>
