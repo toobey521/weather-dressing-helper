@@ -595,34 +595,41 @@ async function fetchWeather(lat, lon){
 
 // ─── 逆地理编码 ───
 async function reverseGeo(lat, lon){
-  // 方案1: Nominatim 逆地理编码
+  // 方案1: BigDataCloud（免费无key，国内可访问）
   try{
-    const url=`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&zoom=12&accept-language=zh`;
+    const url=`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=zh`;
     const resp=await fetch(url,{headers:{'User-Agent':'WeatherApp/1.0'}});
     const d=await resp.json();
-    const addr=d?.address||{};
-    let city=addr.city||addr.county||addr.city_district||addr.town||addr.state_district||'';
-    let district=addr.suburb||addr.town||addr.village||addr.county||addr.district||addr.municipality||'';
-    if(district===city) district='';
-    city=city.replace(/市$/,'');
-    if(!city && d.display_name){
-      const parts=d.display_name.split(',').map(s=>s.trim());
-      city=parts[1]||parts[0]||'';
-      district=parts[0]||'';
-      city=city.replace(/市$/,'');
+    if(d&&d.city){
+      const city=d.city.replace(/市$/,'');
+      const district=d.locality||d.localityInfo?.administrative?.[4]?.name||d.principalSubdivision||'';
+      return {city,district:district===city?'':district};
     }
-    return {city:city||'当前位置',district};
-  }catch(e){
-    // Nominatim 失败 fallback: IP 定位
-    try{
-      const ipResp=await fetch('https://ip-api.com/json/?lang=zh-CN',{headers:{'User-Agent':'WeatherApp/1.0'}});
-      const ipData=await ipResp.json();
-      if(ipData&&ipData.city){
-        return {city:ipData.city,district:ipData.regionName||''};
-      }
-    }catch(_){}
-    return {city:`${lat.toFixed(2)},${lon.toFixed(2)}`,district:''};
-  }
+  }catch(_){}
+
+  // 方案2: Nominatim 备用
+  try{
+    const url2=`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&zoom=12&accept-language=zh`;
+    const resp2=await fetch(url2,{headers:{'User-Agent':'WeatherApp/1.0'}});
+    const d2=await resp2.json();
+    const addr=d2?.address||{};
+    let city2=addr.city||addr.county||addr.city_district||addr.town||addr.state_district||'';
+    let district2=addr.suburb||addr.town||addr.village||addr.county||addr.district||addr.municipality||'';
+    if(district2===city2) district2='';
+    city2=city2.replace(/市$/,'');
+    if(!city2&&d2.display_name){
+      const parts=d2.display_name.split(',').map(s=>s.trim());
+      city2=parts[1]||parts[0]||'';
+      district2=parts[0]||'';
+      city2=city2.replace(/市$/,'');
+    }
+    if(city2) return {city:city2,district:district2};
+  }catch(_){}
+
+  // 兜底：显示时区+坐标
+  const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
+  const tzCity=tz.split('/').pop()?.replace(/_/g,'')||'';
+  return {city:tzCity||`${lat.toFixed(2)},${lon.toFixed(2)}`,district:''};
 }
 
 // ─── 主流程 ───
