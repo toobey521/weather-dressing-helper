@@ -475,7 +475,7 @@ function renderWeather(data, locName, districtName){
   const hourItems=[];
   for(let i=0;i<hourly.time.length;i++){
     const ht=new Date(hourly.time[i]);
-    if(ht.getHours()<nowHour-1) continue;
+    if(ht.getHours()<5) continue;
     if(ht.getHours()>22) break;
     if(hourItems.length>=12) break;
     hourItems.push(ht.getHours());
