@@ -217,7 +217,7 @@ function buildAlerts(hourly, dailyMaxWind, dailyPrecip, wCode){
   for(let i=0;i<hourly.time.length;i++){
     const ht=new Date(hourly.time[i]);
     if(ht.getHours()<h) continue;
-    if(ht.getHours()>22) break;
+    if(ht.getHours()>21) break;
     const wc=hourly.weathercode[i], pp=hourly.precipitation_probability?.[i]||0;
     if(RAIN_CODES.includes(wc)||pp>=50){
       rainHours.push({hour:ht.getHours(),wc,prob:pp,precip:hourly.precipitation[i]});
@@ -476,7 +476,7 @@ function renderWeather(data, locName, districtName){
   for(let i=0;i<hourly.time.length;i++){
     const ht=new Date(hourly.time[i]);
     if(ht.getHours()<5) continue;
-    if(ht.getHours()>22) break;
+    if(ht.getHours()>21) break;
     if(hourItems.length>=12) break;
     hourItems.push(ht.getHours());
   }
