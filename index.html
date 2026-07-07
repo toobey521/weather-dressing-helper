@@ -307,12 +307,12 @@ function renderQW(data,locName,districtName){
   const aqi=data.aqi;
   let aqiLevel='',aqiColor='';
   if(aqi!==null){
-    if(aqi<=50){aqiLevel='优';aqiColor='#00e400';}
-    else if(aqi<=100){aqiLevel='良';aqiColor='#ffff00';}
-    else if(aqi<=150){aqiLevel='轻度';aqiColor='#ff7e00';}
-    else if(aqi<=200){aqiLevel='中度';aqiColor='#ff0000';}
-    else if(aqi<=300){aqiLevel='重度';aqiColor='#99004c';}
-    else{aqiLevel='严重';aqiColor='#7e0023';}
+    if(aqi<=50){aqiLevel='优';aqiColor='#2e7d32';}
+    else if(aqi<=100){aqiLevel='良';aqiColor='#bf8f00';}
+    else if(aqi<=150){aqiLevel='轻度';aqiColor='#d45500';}
+    else if(aqi<=200){aqiLevel='中度';aqiColor='#c62828';}
+    else if(aqi<=300){aqiLevel='重度';aqiColor='#6a1b9a';}
+    else{aqiLevel='严重';aqiColor='#880e4f';}
   }
   const wmo=qToWmo(wText);
   const wSpeed=parseInt(n.windSpeed||'0')||0;
@@ -366,11 +366,11 @@ function renderQW(data,locName,districtName){
       <div class="dressing-title">👔 今日穿搭推荐</div>
       <div class="gender-tabs"><div class="gender-tab active-male" data-g="male">🧑 男士</div><div class="gender-tab" data-g="female">👩 女士</div></div>
       <div class="rec-card show" id="recMale">
-        <div class="style-tabs"><div class="style-tab active-casual" data-s="casual" data-g="male">🛹 时髦大咖</div><div class="style-tab" data-s="work" data-g="male">💼 通勤牛马</div></div>
+        <div class="style-tabs"><div class="style-tab active-casual" data-s="casual" data-g="male">😎 时髦大咖</div><div class="style-tab" data-s="work" data-g="male">💼 通勤牛马</div></div>
         <div id="mC">${rHTML(mD.casual)}</div><div id="mW" style="display:none">${rHTML(mD.work)}</div>
       </div>
       <div class="rec-card" id="recFemale">
-        <div class="style-tabs"><div class="style-tab active-casual" data-s="casual" data-g="female">🛹 时髦大咖</div><div class="style-tab" data-s="work" data-g="female">💼 通勤牛马</div></div>
+        <div class="style-tabs"><div class="style-tab active-casual" data-s="casual" data-g="female">😎 时髦大咖</div><div class="style-tab" data-s="work" data-g="female">💼 通勤牛马</div></div>
         <div id="fC">${rHTML(fD.casual)}</div><div id="fW" style="display:none">${rHTML(fD.work)}</div>
       </div>
       ${mD.tips.map(t=>`<div class="rec-tip">${t}</div>`).join('')}
