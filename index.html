@@ -19,18 +19,27 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   .error-card{background:#fff5f5;border:1px solid #ffd7d7;border-radius:var(--radius);padding:24px;text-align:center;color:#c53030;margin-top:20px}
   .error-card .retry{display:inline-block;margin-top:12px;padding:8px 24px;background:#c53030;color:#fff;border:none;border-radius:10px;font-size:14px;cursor:pointer}
-  .weather-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-top:8px}
-  .weather-location{font-size:20px;font-weight:600}
-  .weather-location .loc-district{font-size:14px;font-weight:400;color:var(--text2);margin-left:6px}
-  .weather-main{display:flex;align-items:center;justify-content:space-between;margin:14px 0}
-  .weather-temp{font-size:52px;font-weight:700;line-height:1}
-  .weather-temp .range{font-size:16px;font-weight:400;color:var(--text2);display:block;margin-top:4px}
-  .weather-icon{font-size:56px;line-height:1}
-  .weather-desc{font-size:16px;color:var(--text2);margin-top:2px}
-  .weather-desc .cur-temp{font-size:22px;font-weight:700;background:linear-gradient(135deg,#e74c3c,#f39c12);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-  .weather-desc .w-label{color:#555;font-weight:500}
-  .weather-extras{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid #eee;font-size:13px;color:var(--text2)}
-  .weather-extras span{display:flex;align-items:center;gap:4px}
+  .weather-card{background:linear-gradient(145deg,#fff,#f8faff);border-radius:24px;box-shadow:0 12px 40px rgba(74,144,217,0.10);padding:28px 24px 20px;margin-top:8px}
+  .weather-loc-wrap{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+  .weather-loc-wrap .pin{font-size:16px}
+  .weather-location{font-size:22px;font-weight:700;color:var(--text);letter-spacing:.5px}
+  .weather-location .loc-district{font-size:14px;font-weight:400;color:#888;margin-left:6px}
+  .weather-main{display:flex;align-items:center;justify-content:space-between;margin:10px 0 6px}
+  .weather-temp-wrap{position:relative}
+  .weather-temp{font-size:68px;font-weight:200;line-height:1;background:linear-gradient(135deg,#2c3e50,#4a90d9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-2px}
+  .weather-temp .deg-symbol{font-size:36px;font-weight:300;background:linear-gradient(135deg,#4a90d9,#74b9ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;vertical-align:super;margin-left:2px}
+  .weather-temp .range{font-size:14px;font-weight:500;color:#888;display:block;margin-top:2px;letter-spacing:0}
+  .weather-temp .range .range-num{font-weight:600;color:#666}
+  .weather-icon-wrap{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#e8f4fd,#d4ecff);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 -4px 10px rgba(74,144,217,0.08),0 8px 24px rgba(74,144,217,0.12)}
+  .weather-icon-wrap .big-icon{font-size:52px;line-height:1}
+  .weather-desc-line{display:flex;align-items:center;gap:10px;margin:4px 0 14px;padding:8px 14px;background:#f0f5ff;border-radius:14px;width:fit-content}
+  .weather-desc-line .w-status{font-size:15px;font-weight:600;color:#2c3e50}
+  .weather-desc-line .w-temp-now{font-size:28px;font-weight:700;background:linear-gradient(135deg,#e74c3c,#f39c12);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+  .weather-desc-line .w-feel{font-size:13px;color:#888;font-weight:400;margin-left:2px}
+  .weather-extras{display:flex;gap:0;margin-top:14px;padding:12px 0 0;border-top:1px solid #edf2f7}
+  .weather-extras .ex-item{flex:1;text-align:center;font-size:12px;color:#888}
+  .weather-extras .ex-item .ex-icon{font-size:18px;display:block;margin-bottom:3px}
+  .weather-extras .ex-item .ex-val{font-size:14px;font-weight:600;color:#444;display:block;margin-top:1px}
   .dressing-sect{margin-top:16px}
   .dressing-title{font-size:15px;font-weight:600;margin-bottom:10px}
   .gender-tabs{display:flex;gap:8px;margin-bottom:10px}
@@ -375,17 +384,28 @@ function renderWeather(data,locName,districtName){
 
   document.getElementById('app').innerHTML=`
     <div class="weather-card">
-      <div class="weather-location">${locName}<span class="loc-district">${districtName||''}</span></div>
-      <div class="weather-main">
-        <div><div class="weather-temp">${curTemp}°<span class="range">↕ ${tMin}° ~ ${tMax}°</span></div></div>
-        <div class="weather-icon">${w.icon}</div>
+      <div class="weather-loc-wrap">
+        <span class="pin">📍</span>
+        <div class="weather-location">${locName}<span class="loc-district">${districtName||''}</span></div>
       </div>
-      <div class="weather-desc"><span class="w-label">${w.label}</span> · <span class="cur-temp">${curTemp}°</span> · 体感 ${feelsLike}°C</div>
+      <div class="weather-main">
+        <div class="weather-temp-wrap">
+          <div class="weather-temp">${curTemp}<span class="deg-symbol">°</span><span class="range">↕ <span class="range-num">${tMin}</span>° ~ <span class="range-num">${tMax}</span>°</span></div>
+        </div>
+        <div class="weather-icon-wrap">
+          <div class="big-icon">${w.icon}</div>
+        </div>
+      </div>
+      <div class="weather-desc-line">
+        <span class="w-status">${w.label}</span>
+        <span class="w-temp-now">${curTemp}°</span>
+        <span class="w-feel">体感 ${feelsLike}°C</span>
+      </div>
       <div class="weather-extras">
-        <span>💨 ${windDir(windDirDeg)} ${windLevel(curWindKMH)}</span>
-        <span>💧 ${humidity}%</span>
-        ${sunrise?`<span>🌅 ${sunrise}</span>`:''}
-        ${sunset?`<span>🌇 ${sunset}</span>`:''}
+        <div class="ex-item"><span class="ex-icon">💨</span><span>${windDir(windDirDeg)}</span><span class="ex-val">${windLevel(curWindKMH)}</span></div>
+        <div class="ex-item"><span class="ex-icon">💧</span><span>湿度</span><span class="ex-val">${humidity}%</span></div>
+        <div class="ex-item"><span class="ex-icon">🌅</span><span>日出</span><span class="ex-val">${sunrise||'--'}</span></div>
+        <div class="ex-item"><span class="ex-icon">🌇</span><span>日落</span><span class="ex-val">${sunset||'--'}</span></div>
       </div>
       ${hourHTML?`
       <div class="hourly-sect">
