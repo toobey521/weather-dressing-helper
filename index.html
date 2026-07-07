@@ -325,9 +325,9 @@ function renderWeather(data,locName,districtName){
   for(let i=0;i<hData.time.length;i++){
     const ht=new Date(hData.time[i]);
     const hr=ht.getHours();
-    if(hr<h-1) continue;
-    if(hr>22) break;
-    if(hourHTML.split('<div class="h-item').length>16) break;
+    if(hr<0) continue;
+    if(hr>23) break;
+    if(hourHTML.split('<div class="h-item').length>24) break;
     const hTemp=Math.round(hData.temperature_2m[i]);
     const hWc=hData.weathercode[i];
     const hWi=wmoInfo(hWc);
@@ -400,7 +400,7 @@ function renderWeather(data,locName,districtName){
       </div>
       <div class="rec-card show" id="recMale">
         <div class="style-tabs">
-          <div class="style-tab active-casual" data-style="casual" data-gender="male">🛹 闲适大佬</div>
+          <div class="style-tab active-casual" data-style="casual" data-gender="male">🛹 时髦大咖</div>
           <div class="style-tab" data-style="work" data-gender="male">💼 通勤牛马</div>
         </div>
         <div id="maleCasual">${renderRecHTML(mRec.casual)}</div>
@@ -408,7 +408,7 @@ function renderWeather(data,locName,districtName){
       </div>
       <div class="rec-card" id="recFemale">
         <div class="style-tabs">
-          <div class="style-tab active-casual" data-style="casual" data-gender="female">🛹 闲适大佬</div>
+          <div class="style-tab active-casual" data-style="casual" data-gender="female">🛹 时髦大咖</div>
           <div class="style-tab" data-style="work" data-gender="female">💼 通勤牛马</div>
         </div>
         <div id="femaleCasual">${renderRecHTML(fRec.casual)}</div>
